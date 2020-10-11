@@ -1,24 +1,22 @@
 package invi.pages.guest;
 
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.MobileDriver;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import invi.utils.Waiter;
-
 
 
 public class MainPage {
-    private AndroidDriver<AndroidElement> driver;
+    private MobileDriver<MobileElement> driver;
     private WebDriverWait wait;
 
 
     public MainPage() {
     }
-    public MainPage(AndroidDriver<AndroidElement> driver) {
+    public MainPage(MobileDriver<MobileElement> driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver,20);
 
@@ -26,15 +24,15 @@ public class MainPage {
     }
 
     @AndroidFindBy(id = "@id/ivLogout")
-    private AndroidElement logOutButton;
+    private MobileElement logOutButton;
 
     @AndroidFindBy(id = "@android:id/button1")
-    private AndroidElement confirmLogOutButton;
+    private MobileElement confirmLogOutButton;
 
     @AndroidFindBy(id = "@android:id/button2")
-    private AndroidElement cancelLogOutButton;
+    private MobileElement cancelLogOutButton;
 
-    public AndroidElement getLogOutButton() {
+    public MobileElement getLogOutButton() {
         return logOutButton;
     }
 

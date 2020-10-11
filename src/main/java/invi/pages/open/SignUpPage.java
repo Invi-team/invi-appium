@@ -1,25 +1,22 @@
 package invi.pages.open;
 
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.MobileDriver;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import invi.utils.Waiter;
-
-import java.util.concurrent.TimeUnit;
 
 
 public class SignUpPage {
-    private AndroidDriver<AndroidElement> driver;
+    private MobileDriver<MobileElement> driver;
     private WebDriverWait wait;
 
 
     public SignUpPage() {
     }
-    public SignUpPage(AndroidDriver<AndroidElement> driver) {
+    public SignUpPage(MobileDriver<MobileElement> driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver,20);
 
@@ -27,19 +24,19 @@ public class SignUpPage {
     }
 
     @AndroidFindBy(className = "UIAKeyboard")
-    private AndroidElement keyboard;
+    private MobileElement keyboard;
 
     @AndroidFindBy(id = "etEmail")
-    private AndroidElement emailInput;
+    private MobileElement emailInput;
 
     @AndroidFindBy(id = "etPassword")
-    private AndroidElement passwordInput;
+    private MobileElement passwordInput;
 
     @AndroidFindBy(id = "btnSignUp")
-    private AndroidElement signUpButton;
+    private MobileElement signUpButton;
 
     @AndroidFindBy(id = "textinput_error")
-    private AndroidElement errorInputLabel;
+    private MobileElement errorInputLabel;
 
     public void hideKeyboardIfVisible() {
         if (keyboard != null) {
@@ -71,7 +68,7 @@ public class SignUpPage {
         clickSignUp();
     }
 
-    public AndroidElement getErrorInputLabel() {
+    public MobileElement getErrorInputLabel() {
         return errorInputLabel;
     }
 }
