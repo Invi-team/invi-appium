@@ -1,4 +1,4 @@
-package invi;
+package invi.tests;
 
 import invi.capabilities.AndroidEmulator;
 import io.appium.java_client.android.AndroidDriver;

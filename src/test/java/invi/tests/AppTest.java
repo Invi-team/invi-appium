@@ -1,4 +1,4 @@
-package invi;
+package invi.tests;
 
 import static org.junit.Assert.assertTrue;
 

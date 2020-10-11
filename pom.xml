@@ -31,8 +31,14 @@
       <artifactId>java-client</artifactId>
       <version>7.3.0</version>
       <!-- https://mvnrepository.com/artifact/com.applitools/eyes-appium-java4 -->
-
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
+    <dependency>
+      <groupId>com.aventstack</groupId>
+      <artifactId>extentreports</artifactId>
+      <version>4.1.7</version>
+    </dependency>
+
 
   </dependencies>
 
