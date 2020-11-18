@@ -6,7 +6,6 @@ import invi.pages.guest.MainPage;
 import invi.pages.open.LandingPage;
 import invi.pages.open.SignInPage;
 import invi.capabilities.AndroidEmulator;
-import invi.reports.ExtentReport;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import org.junit.Test;

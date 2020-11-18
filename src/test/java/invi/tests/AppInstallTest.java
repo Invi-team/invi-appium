@@ -3,7 +3,6 @@ package invi.tests;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import invi.capabilities.AndroidEmulator;
-import invi.reports.ExtentReport;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import org.junit.Assert;
