@@ -35,11 +35,6 @@ public class LandingPage {
 
     public void selectSignIn() {
         wait.until(ExpectedConditions.visibilityOf(this.signInLinkButton));
-//        try {
-//            Thread.sleep(10000);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         signInLinkButton.click();
     }
 }

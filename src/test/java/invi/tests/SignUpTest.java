@@ -6,11 +6,9 @@ import invi.capabilities.AndroidEmulator;
 import invi.pages.guest.MainPage;
 import invi.pages.open.LandingPage;
 import invi.pages.open.SignUpPage;
-import invi.suites.AllTestSuite;
+import invi.reports.ExtentReport;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
 import org.junit.Assert;
 import org.junit.Test;
 import java.util.Date;
@@ -27,7 +25,7 @@ public class SignUpTest {
 
     @Test
     public void signUpTest() {
-        ExtentTest test = AllTestSuite.getExtent().createTest("Sign up test", "Test incorrect and successful sigh up");
+        ExtentTest test = ExtentReport.getExtent().createTest("Sign up test", "Test incorrect and successful sigh up");
         MobileDriver<MobileElement> driver = new AndroidEmulator().getDriver();
 
         LandingPage landingPage = new LandingPage(driver);

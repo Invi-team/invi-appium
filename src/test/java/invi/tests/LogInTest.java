@@ -6,7 +6,7 @@ import invi.pages.guest.MainPage;
 import invi.pages.open.LandingPage;
 import invi.pages.open.SignInPage;
 import invi.capabilities.AndroidEmulator;
-import invi.suites.TestSuiteTemplate;
+import invi.reports.ExtentReport;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class LogInTest {
 
     @Test
     public void logInTest() {
-        ExtentTest test = TestSuiteTemplate.getExtent().createTest("Login test", "Test incorrect and successful log in");
+        ExtentTest test = ExtentReport.getExtent().createTest("Login test", "Test incorrect and successful log in");
         MobileDriver<MobileElement> driver = new AndroidEmulator().getDriver();
 
         LandingPage landingPage = new LandingPage(driver);
