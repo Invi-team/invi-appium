@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="allTests" verbose="1" >
+    <test name="android" >
+        <classes>
+            <class name="invi.tests.LogInTest" />
+            <class name="invi.tests.SignUpTest"></class>
+        </classes>
+    </test>
+</suite>

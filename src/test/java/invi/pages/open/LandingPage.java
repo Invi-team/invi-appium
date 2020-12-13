@@ -13,8 +13,11 @@ public class LandingPage {
     private MobileDriver<MobileElement> driver;
     private WebDriverWait wait;
 
-    public LandingPage() {
-    }
+    @AndroidFindBy(id = "com.kiksoft.invi:id/btnSignIn")
+    private MobileElement signInLinkButton;
+
+    @AndroidFindBy(id = "com.kiksoft.invi:id/tvSignUpPageButton")
+    private MobileElement signUpLinkButton;
 
     public LandingPage(MobileDriver<MobileElement> driver) {
         this.driver = driver;
@@ -22,19 +25,13 @@ public class LandingPage {
         PageFactory.initElements(new AppiumFieldDecorator(driver) ,this);
     }
 
-    @AndroidFindBy(id = "com.kiksoft.invi:id/btnSignIn")
-    private MobileElement signInLinkButton;
-
-    @AndroidFindBy(id = "com.kiksoft.invi:id/tvSignUpPageButton")
-    private MobileElement signUpLinkButton;
-
     public void selectSignUp() {
-        wait.until(ExpectedConditions.visibilityOf(this.signUpLinkButton));
-        signUpLinkButton.click();
+        this.wait.until(ExpectedConditions.visibilityOf(this.signUpLinkButton));
+        this.signUpLinkButton.click();
     }
 
     public void selectSignIn() {
-        wait.until(ExpectedConditions.visibilityOf(this.signInLinkButton));
-        signInLinkButton.click();
+        this.wait.until(ExpectedConditions.visibilityOf(this.signInLinkButton));
+        this.signInLinkButton.click();
     }
 }

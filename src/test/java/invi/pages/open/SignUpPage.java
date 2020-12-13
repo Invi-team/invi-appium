@@ -13,16 +13,6 @@ public class SignUpPage {
     private MobileDriver<MobileElement> driver;
     private WebDriverWait wait;
 
-
-    public SignUpPage() {
-    }
-    public SignUpPage(MobileDriver<MobileElement> driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver,20);
-
-        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-    }
-
     @AndroidFindBy(className = "UIAKeyboard")
     private MobileElement keyboard;
 
@@ -38,27 +28,33 @@ public class SignUpPage {
     @AndroidFindBy(id = "textinput_error")
     private MobileElement errorInputLabel;
 
+    public SignUpPage(MobileDriver<MobileElement> driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver,20);
+        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+    }
+
     public void hideKeyboardIfVisible() {
-        if (keyboard != null) {
-            driver.hideKeyboard();
+        if (this.keyboard != null) {
+            this.driver.hideKeyboard();
         }
     }
 
     public void typeEmail(String email) {
-        wait.until(ExpectedConditions.visibilityOf(this.emailInput));
-        emailInput.clear();
-        emailInput.sendKeys(email);
+        this.wait.until(ExpectedConditions.visibilityOf(this.emailInput));
+        this.emailInput.clear();
+        this.emailInput.sendKeys(email);
     }
 
     public void typePassword(String password) {
-        wait.until(ExpectedConditions.visibilityOf(this.passwordInput));
-        passwordInput.clear();
-        passwordInput.sendKeys(password);
+        this.wait.until(ExpectedConditions.visibilityOf(this.passwordInput));
+        this.passwordInput.clear();
+        this.passwordInput.sendKeys(password);
     }
 
     public void clickSignUp() {
-        wait.until(ExpectedConditions.visibilityOf(this.signUpButton));
-        signUpButton.click();
+        this.wait.until(ExpectedConditions.visibilityOf(this.signUpButton));
+        this.signUpButton.click();
     }
 
     public void signUp(String email, String password) {
@@ -69,6 +65,6 @@ public class SignUpPage {
     }
 
     public MobileElement getErrorInputLabel() {
-        return errorInputLabel;
+        return this.errorInputLabel;
     }
 }

@@ -13,16 +13,6 @@ public class SignInPage {
     private MobileDriver<MobileElement> driver;
     private WebDriverWait wait;
 
-
-    public SignInPage() {
-    }
-    public SignInPage(MobileDriver<MobileElement> driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver,20);
-
-        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-    }
-
     @AndroidFindBy(className = "UIAKeyboard")
     private MobileElement keyboard;
 
@@ -38,27 +28,33 @@ public class SignInPage {
     @AndroidFindBy(id = "com.kiksoft.invi:id/textinput_error")
     private MobileElement emailInputErrorLabel;
 
+    public SignInPage(MobileDriver<MobileElement> driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver,20);
+        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+    }
+
     public void hideKeyboardIfVisible() {
-        if (keyboard != null) {
-            driver.hideKeyboard();
+        if (this.keyboard != null) {
+            this.driver.hideKeyboard();
         }
     }
 
     public void typeEmail(String email) {
-        wait.until(ExpectedConditions.visibilityOf(this.emailInput));
-        emailInput.clear();
-        emailInput.sendKeys(email);
+        this.wait.until(ExpectedConditions.visibilityOf(this.emailInput));
+        this.emailInput.clear();
+        this.emailInput.sendKeys(email);
     }
 
     public void typePassword(String password) {
-        wait.until(ExpectedConditions.visibilityOf(this.passwordInput));
-        passwordInput.clear();
-        passwordInput.sendKeys(password);
+        this.wait.until(ExpectedConditions.visibilityOf(this.passwordInput));
+        this.passwordInput.clear();
+        this.passwordInput.sendKeys(password);
     }
 
     public void clickSignIn() {
-        wait.until(ExpectedConditions.visibilityOf(this.signInButton));
-        signInButton.click();
+        this.wait.until(ExpectedConditions.visibilityOf(this.signInButton));
+        this.signInButton.click();
     }
 
     public void signIn(String email, String password) {

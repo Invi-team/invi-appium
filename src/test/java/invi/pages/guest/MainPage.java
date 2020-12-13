@@ -13,17 +13,7 @@ public class MainPage {
     private MobileDriver<MobileElement> driver;
     private WebDriverWait wait;
 
-
-    public MainPage() {
-    }
-    public MainPage(MobileDriver<MobileElement> driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver,20);
-
-        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-    }
-
-    @AndroidFindBy(id = "@id/ivLogout")
+    @AndroidFindBy(id = "com.kiksoft.invi:id/ivLogout")
     private MobileElement logOutButton;
 
     @AndroidFindBy(id = "@android:id/button1")
@@ -32,9 +22,16 @@ public class MainPage {
     @AndroidFindBy(id = "@android:id/button2")
     private MobileElement cancelLogOutButton;
 
-    public MobileElement getLogOutButton() {
-        return logOutButton;
+    public MainPage(MobileDriver<MobileElement> driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver,20);
+        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
+
+    public MobileElement getLogOutButton() {
+        return this.logOutButton;
+    }
+
 
     public void clickLogOut() {
         wait.until(ExpectedConditions.visibilityOf(this.logOutButton));
