@@ -1,7 +1,0 @@
-{
-  "existing_user": {
-    "email": "test.existing@email.com",
-    "password": "slimak",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0OWZkMzU0Yi1jZGFiLTQxYmYtYTQ3NC0zMjllOGY1MWE2OTgiLCJleHAiOjE2NDEwOTY1MjN9.al2oh_e1cZVrlz_mpn1RsM3XMyLuK1M_wLO2PuPxRmQ"
-  }
-}
