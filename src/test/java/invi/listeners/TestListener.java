@@ -2,7 +2,6 @@ package invi.listeners;
 
 import invi.utils.InviDriver;
 import invi.utils.InviFile;
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import org.apache.commons.io.FileUtils;
@@ -14,7 +13,6 @@ import org.testng.ITestResult;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 public class TestListener implements ITestListener {
     private MobileDriver <MobileElement> driver;
@@ -28,16 +26,7 @@ public class TestListener implements ITestListener {
     @Override
     public void onTestFailure(ITestResult iTestResult) {
         this.driver = InviDriver.retrieveDriver(iTestResult);
-        Class testClass = iTestResult.getTestClass().getRealClass();
-        Field testField = null;
 
-        try {
-            testField = testClass.getDeclaredField("driver");
-            testField.setAccessible(true);
-            this.driver = (MobileDriver<MobileElement>)testField.get(iTestResult.getInstance());
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
         File scrFile = ((TakesScreenshot)this.driver).getScreenshotAs(OutputType.FILE);
 
         try {

@@ -1,6 +1,5 @@
 package invi.utils;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import org.testng.ITestResult;
