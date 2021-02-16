@@ -27,7 +27,8 @@ public class AndroidEmulator {
         dc.setCapability("automationName", "UiAutomator2");
 
         try {
-            driver = new AndroidDriver<MobileElement>(new URL(PropertiesHandler.getProperty("appium.host")), dc);
+            String appiumHost = PropertiesHandler.getProperty("config.properties", "appium.host");
+            driver = new AndroidDriver<MobileElement>(new URL(appiumHost), dc);
             driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
             driver.startActivity(new Activity("com.kiksoft.invi", "splash.SplashActivity"));
         } catch (Exception e) {

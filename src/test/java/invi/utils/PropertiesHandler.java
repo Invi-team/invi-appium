@@ -9,33 +9,23 @@ import java.util.logging.Logger;
 public class PropertiesHandler {
     private static final Logger LOGGER = Logger.getLogger(PropertiesHandler.class.getName());
     private static PropertiesHandler instance = null;
-    private String rootPath;
-    private String configPropertiesPath;
-    private Properties configProperties;
+    private static String rootPath;
+    private static String configPropertiesPath;
+    private static Properties configProperties;
 
-
-    private PropertiesHandler() {
+    public static String getProperty(String fileName, String property) {
         rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        configPropertiesPath = rootPath + "config.properties";
+        configPropertiesPath = rootPath + fileName;
         configProperties = new Properties();
 
         try {
-            configProperties.load(new FileInputStream(this.configPropertiesPath));
+            configProperties.load(new FileInputStream(configPropertiesPath));
         } catch (FileNotFoundException e) {
             LOGGER.config("could not find config.properties file");
         } catch (IOException e) {
             LOGGER.config("could not load config.properties file");
         }
-    }
 
-    public static PropertiesHandler getInstance() {
-        if (instance == null) {
-            instance = new PropertiesHandler();
-        }
-        return instance;
-    }
-
-    public static String getProperty(String property) {
-        return PropertiesHandler.getInstance().configProperties.getProperty(property);
+        return PropertiesHandler.configProperties.getProperty(property);
     }
 }
