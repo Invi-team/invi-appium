@@ -16,13 +16,13 @@ public class SignInPage {
     @AndroidFindBy(className = "UIAKeyboard")
     private MobileElement keyboard;
 
-    @AndroidFindBy(id = "etEmail")
+    @AndroidFindBy(id = "com.kiksoft.invi:id/etEmail")
     private MobileElement emailInput;
 
-    @AndroidFindBy(id = "etPassword")
+    @AndroidFindBy(id = "com.kiksoft.invi:id/etPassword")
     private MobileElement passwordInput;
 
-    @AndroidFindBy(id = "com.kiksoft.invi:id/btnSignUp")
+    @AndroidFindBy(id = "com.kiksoft.invi:id/btnSignIn")
     private MobileElement signInButton;
 
     @AndroidFindBy(id = "com.kiksoft.invi:id/textinput_error")

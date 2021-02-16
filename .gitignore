@@ -1,4 +1,10 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+resources
+/test-output/
+/accounts.json
+app-debug.apk
+
 ### Maven template
 target/
 pom.xml.tag
@@ -237,7 +243,6 @@ Temporary Items
 #  https://wiki.jenkins-ci.org/display/JENKINS/Administering+Jenkins
 
 #ignore all JENKINS_HOME except jobs directory, root xml config, and .gitignore file
-/*
 !/jobs
 !/.gitignore
 !/*.xml
@@ -282,6 +287,3 @@ jobs/**/*workspace
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-
-/test-output/
-/accounts.json
