@@ -20,7 +20,7 @@ public class AppInstallTest {
 
     @Test
     public void appInstallTest() {
-        driver = new AndroidEmulator().getDriver();
+        //driver = new AndroidEmulator().getDriver();
 
         Assert.assertTrue(driver.isAppInstalled(APP_PATH));
     }
