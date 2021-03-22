@@ -1,6 +1,6 @@
 package invi.listeners;
 
-import invi.utils.InviDriver;
+import invi.driver.DeviceManager;
 import invi.utils.InviFile;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
@@ -25,8 +25,7 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult iTestResult) {
-        this.driver = InviDriver.retrieveDriver(iTestResult);
-
+        this.driver = DeviceManager.getDriver();
         File scrFile = ((TakesScreenshot)this.driver).getScreenshotAs(OutputType.FILE);
 
         try {
