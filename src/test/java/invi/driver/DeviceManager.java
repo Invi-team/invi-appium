@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public abstract class DeviceManager {
+public class DeviceManager {
     private static final Logger LOGGER = Logger.getLogger(DeviceManager.class.getName());
     private static final String SYSTEM_ANDROID = "Android";
     private static final String SYSTEM_IOS = "iOS";
