@@ -1,17 +1,19 @@
 package invi.tests;
 
 import com.aventstack.extentreports.testng.listener.ExtentITestListenerClassAdapter;
+import invi.driver.DeviceManager;
 import invi.listeners.TestListener;
 import invi.pages.guest.MainPage;
 import invi.pages.open.LandingPage;
 import invi.pages.open.SignInPage;
-import invi.capabilities.AndroidEmulator;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import org.testng.Assert;
-import org.testng.ITestListener;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Listeners({
@@ -27,11 +29,21 @@ public class LogInTest {
     private final static String EMPTY_FIELD_ERROR_MESSAGE = "This field cannot be empty";
     private final static String EMAIL_FORMAT_ERROR_MESSAGE = "Wrong e-mail address format";
 
-    public MobileDriver<MobileElement> driver;
+    private MobileDriver<MobileElement> driver;
+
+    @BeforeMethod
+    public void setUp() {
+        Map<String, String> params = new HashMap<>();
+        params.put("packageName", "com.kiksoft.invi");
+        params.put("activity", "splash.SplashActivity");
+
+        driver = DeviceManager.getDriver();
+        driver.resetApp();
+        DeviceManager.initAppState(params);
+    }
 
     @Test
     public void logInTest() {
-        this.driver = new AndroidEmulator().getDriver();
 
         LandingPage landingPage = new LandingPage(this.driver);
         SignInPage signInPage = new SignInPage(this.driver);
@@ -47,8 +59,6 @@ public class LogInTest {
 
         signInPage.signIn(CORRECT_EMAIL, CORRECT_PASSWORD);
         Assert.assertTrue(mainPage.getLogOutButton().isDisplayed());
-
-        driver.quit();
 
     }
 }
