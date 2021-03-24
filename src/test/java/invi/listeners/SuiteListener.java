@@ -10,16 +10,18 @@ import java.util.logging.Logger;
 
 public class SuiteListener implements ISuiteListener {
     private static final Logger LOGGER = Logger.getLogger(SuiteListener.class.getName());
+    private DeviceFactory deviceFactory = new DeviceFactory();
+    private DeviceManager deviceManager = new DeviceManager();
 
     public void onStart(ISuite suite) {
         String deviceName = suite.getParameter("device");
         String deviceSystem = suite.getParameter("system");
-        Device device = DeviceFactory.createDevice(deviceName);
+        Device device = deviceFactory.createDevice(deviceName);
 
-        DeviceManager.setDeviceDriver(deviceSystem, device.getCapabilities());
+        deviceManager.setDeviceDriver(deviceSystem, device.getCapabilities());
     }
 
     public void onFinish(ISuite suite) {
-        DeviceManager.quitDriver();
+        deviceManager.quitDriver();
     }
 }

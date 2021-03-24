@@ -7,9 +7,9 @@ import java.util.logging.Logger;
 
 public class DeviceFactory {
     private static final Logger LOGGER = Logger.getLogger(DeviceFactory.class.getName());
-    private static Device device;
+    private Device device;
 
-    public static Device createDevice(String deviceName) {
+    public Device createDevice(String deviceName) {
         try {
             Class<?> driverClass = Class.forName(deviceName);
             Constructor<?> constructor = driverClass.getConstructor();

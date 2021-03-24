@@ -12,6 +12,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,7 @@ public class SignUpTest {
     private final static String EMAIL_FORMAT_ERROR_MESSAGE = "Wrong e-mail address format";
 
     private MobileDriver<MobileElement> driver;
+    private DeviceManager deviceManager = new DeviceManager();
 
     @BeforeMethod
     public void setUp() {
@@ -37,14 +39,13 @@ public class SignUpTest {
         params.put("packageName", "com.kiksoft.invi");
         params.put("activity", "splash.SplashActivity");
 
-        driver = DeviceManager.getDriver();
+        driver = deviceManager.getDriver();
         driver.resetApp();
-        DeviceManager.initAppState(params);
+        deviceManager.initAppState(params);
     }
 
     @Test
     public void signUpTest() {
-
         LandingPage landingPage = new LandingPage(driver);
         SignUpPage signUpPage = new SignUpPage(driver);
         MainPage mainPage = new MainPage(driver);
@@ -59,6 +60,5 @@ public class SignUpTest {
 
         signUpPage.signUp(CORRECT_EMAIL, CORRECT_PASSWORD);
         Assert.assertNotNull(mainPage.getLogOutButton());
-
     }
 }

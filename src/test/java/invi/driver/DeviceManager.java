@@ -19,18 +19,18 @@ public class DeviceManager {
     private static String mobileSystem;
 
 
-    private DeviceManager() {
+    public DeviceManager() {
     }
 
-    public static MobileDriver getDriver() {
+    public MobileDriver getDriver() {
         return mobileDriver.get();
     }
 
-    public static void quitDriver(){
+    public void quitDriver(){
         mobileDriver.get().quit();
     }
 
-    public static void setDeviceDriver(String system, DesiredCapabilities capabilities) {
+    public void setDeviceDriver(String system, DesiredCapabilities capabilities) {
         mobileSystem = system;
         if(mobileSystem.equals(SYSTEM_ANDROID)) {
             try {
@@ -42,7 +42,7 @@ public class DeviceManager {
         }
     }
 
-    public static void initAppState(Map<String, String> params) {
+    public void initAppState(Map<String, String> params) {
         if(mobileSystem.equals(SYSTEM_ANDROID)) {
             AndroidDriver driver = (AndroidDriver) mobileDriver.get();
             driver.startActivity(new Activity(params.get("packageName"), params.get("activity")));
