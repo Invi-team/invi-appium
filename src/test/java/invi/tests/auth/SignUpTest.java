@@ -6,6 +6,7 @@ import invi.listeners.TestListener;
 import invi.pages.guest.MainPage;
 import invi.pages.open.LandingPage;
 import invi.pages.open.SignUpPage;
+import invi.utils.Constants;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import org.testng.Assert;
@@ -27,8 +28,6 @@ public class SignUpTest {
     private final static String INCORRECT_PASSWORD = "zaqwsx";
     private final static String EMPTY = "";
     private final static String CORRECT_PASSWORD = "slimak";
-    private final static String EMPTY_FIELD_ERROR_MESSAGE = "This field cannot be empty";
-    private final static String EMAIL_FORMAT_ERROR_MESSAGE = "Wrong e-mail address format";
 
     private MobileDriver<MobileElement> driver;
     private DeviceManager deviceManager = new DeviceManager();
@@ -52,11 +51,11 @@ public class SignUpTest {
 
 
         landingPage.selectSignUp();
-        signUpPage.signUp(EMPTY, INCORRECT_PASSWORD);
-        Assert.assertEquals(EMPTY_FIELD_ERROR_MESSAGE, signUpPage.getErrorInputLabel().getText());
+        signUpPage.signUp(Constants.EMPTY, INCORRECT_PASSWORD);
+        Assert.assertEquals(Constants.EMPTY_FIELD_ERROR_MESSAGE, signUpPage.getErrorInputLabel().getText());
 
         signUpPage.signUp(INCORRECT_EMAIL, INCORRECT_PASSWORD);
-        Assert.assertEquals(EMAIL_FORMAT_ERROR_MESSAGE, signUpPage.getErrorInputLabel().getText());
+        Assert.assertEquals(Constants.EMAIL_FORMAT_ERROR_MESSAGE, signUpPage.getErrorInputLabel().getText());
 
         signUpPage.signUp(CORRECT_EMAIL, CORRECT_PASSWORD);
         Assert.assertNotNull(mainPage.getLogOutButton());

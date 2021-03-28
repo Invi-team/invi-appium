@@ -6,6 +6,7 @@ import invi.listeners.TestListener;
 import invi.pages.guest.MainPage;
 import invi.pages.open.LandingPage;
 import invi.pages.open.SignInPage;
+import invi.utils.Constants;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import org.testng.Assert;
@@ -51,11 +52,11 @@ public class LogInTest {
         MainPage mainPage = new MainPage(this.driver);
 
         landingPage.selectSignIn();
-        signInPage.signIn(EMPTY, INCORRECT_PASSWORD);
-        Assert.assertEquals(EMPTY_FIELD_ERROR_MESSAGE, signInPage.getEmailInputErrorLabel().getText());
+        signInPage.signIn(Constants.EMPTY, INCORRECT_PASSWORD);
+        Assert.assertEquals(Constants.EMPTY_FIELD_ERROR_MESSAGE, signInPage.getEmailInputErrorLabel().getText());
 
         signInPage.signIn(INCORRECT_EMAIL, INCORRECT_PASSWORD);
-        Assert.assertEquals(EMAIL_FORMAT_ERROR_MESSAGE, signInPage.getEmailInputErrorLabel().getText());
+        Assert.assertEquals(Constants.EMAIL_FORMAT_ERROR_MESSAGE, signInPage.getEmailInputErrorLabel().getText());
 
         signInPage.signIn(CORRECT_EMAIL, CORRECT_PASSWORD);
         Assert.assertTrue(mainPage.getLogOutButton().isDisplayed());
