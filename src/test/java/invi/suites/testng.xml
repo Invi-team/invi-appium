@@ -8,8 +8,8 @@
     <parameter name="system" value="Android"></parameter>
     <test name="android">
         <classes>
-            <class name="invi.tests.LogInTest" ></class>
-            <class name="invi.tests.SignUpTest"></class>
+            <class name="invi.tests.auth.LogInTest" ></class>
+            <class name="invi.tests.auth.SignUpTest"></class>
         </classes>
     </test>
 </suite>

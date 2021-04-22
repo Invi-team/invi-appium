@@ -8,13 +8,13 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 public class PropertiesHandler {
-    private static final Logger LOGGER = Logger.getLogger(PropertiesHandler.class.getName());
+    private final Logger LOGGER = Logger.getLogger(PropertiesHandler.class.getName());
     private static PropertiesHandler instance = null;
-    private static String rootPath;
-    private static String configPropertiesPath;
-    private static Properties configProperties;
+    private String rootPath;
+    private String configPropertiesPath;
+    private Properties configProperties;
 
-    public static String getProperty(String fileName, String propertyKey) {
+    public String getProperty(String fileName, String propertyKey) {
         rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
         configPropertiesPath = rootPath + fileName;
         configProperties = new Properties();
@@ -29,7 +29,7 @@ public class PropertiesHandler {
             LOGGER.config("could not load " + fileName + " config.properties file");
         }
 
-        return PropertiesHandler.configProperties.getProperty(propertyKey);
+        return this.configProperties.getProperty(propertyKey);
     }
 
     public void setProperty(String fileName, String propertyKey, String propertyValue) {

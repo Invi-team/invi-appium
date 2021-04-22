@@ -1,6 +1,7 @@
 package invi.tests.auth;
 
 import com.aventstack.extentreports.testng.listener.ExtentITestListenerClassAdapter;
+import invi.data.providers.auth.LogInData;
 import invi.driver.DeviceManager;
 import invi.listeners.TestListener;
 import invi.pages.guest.MainPage;
@@ -9,6 +10,8 @@ import invi.pages.open.SignInPage;
 import invi.utils.Constants;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -23,14 +26,6 @@ import java.util.Map;
         TestListener.class
 })
 public class LogInTest {
-    private final static String CORRECT_EMAIL = "test.existing@email.com";
-    private final static String INCORRECT_EMAIL = "incorrect.email";
-    private final static String INCORRECT_PASSWORD = "zaqwsx";
-    private final static String EMPTY = "";
-    private final static String CORRECT_PASSWORD = "slimak";
-    private final static String EMPTY_FIELD_ERROR_MESSAGE = "This field cannot be empty";
-    private final static String EMAIL_FORMAT_ERROR_MESSAGE = "Wrong e-mail address format";
-
     private MobileDriver<MobileElement> driver;
     private DeviceManager deviceManager = new DeviceManager();
 
@@ -38,28 +33,29 @@ public class LogInTest {
     public void setUp() {
         Map<String, String> params = new HashMap<>();
         params.put("packageName", "com.kiksoft.invi");
-        params.put("activity", "splash.SplashActivity");
+        params.put("activity", ".splash.SplashActivity");
 
         driver = deviceManager.getDriver();
         driver.resetApp();
         deviceManager.initAppState(params);
     }
 
-    @Test
-    public void logInTest() {
-        LandingPage landingPage = new LandingPage(this.driver);
-        SignInPage signInPage = new SignInPage(this.driver);
-        MainPage mainPage = new MainPage(this.driver);
+    @Test(dataProvider = "logInData", dataProviderClass = LogInData.class)
+    public void logInTest(String email, String password, String incorrectEmail, String incorrectPassword) {
+        LandingPage landingPage = new LandingPage(driver);
+        SignInPage signInPage = new SignInPage(driver);
+        MainPage mainPage = new MainPage(driver);
+        WebDriverWait wait = new WebDriverWait(driver, 20);
 
         landingPage.selectSignIn();
-        signInPage.signIn(Constants.EMPTY, INCORRECT_PASSWORD);
+        signInPage.signIn(Constants.EMPTY, incorrectPassword);
         Assert.assertEquals(Constants.EMPTY_FIELD_ERROR_MESSAGE, signInPage.getEmailInputErrorLabel().getText());
 
-        signInPage.signIn(INCORRECT_EMAIL, INCORRECT_PASSWORD);
+        signInPage.signIn(incorrectEmail, incorrectPassword);
         Assert.assertEquals(Constants.EMAIL_FORMAT_ERROR_MESSAGE, signInPage.getEmailInputErrorLabel().getText());
 
-        signInPage.signIn(CORRECT_EMAIL, CORRECT_PASSWORD);
+        signInPage.signIn(email, password);
+        wait.until(ExpectedConditions.visibilityOf(mainPage.getLogOutButton()));
         Assert.assertTrue(mainPage.getLogOutButton().isDisplayed());
-
     }
 }

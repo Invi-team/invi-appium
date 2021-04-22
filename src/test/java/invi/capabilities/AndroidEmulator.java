@@ -4,7 +4,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 
-
 public class AndroidEmulator implements Device {
     private DesiredCapabilities dc = new DesiredCapabilities();
 
@@ -13,7 +12,7 @@ public class AndroidEmulator implements Device {
         String apkPath = file.getAbsoluteFile().getPath();
 
         dc.setCapability("platformName", "Android");
-        dc.setCapability("appActivity", "splash.SplashActivity");
+        dc.setCapability("appActivity", ".splash.SplashActivity");
         dc.setCapability("app", apkPath);
         dc.setCapability("appPackage", "com.kiksoft.invi");
         dc.setCapability("deviceName", "Android Emulator");
