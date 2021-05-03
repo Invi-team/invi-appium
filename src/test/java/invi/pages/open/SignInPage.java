@@ -1,17 +1,11 @@
 package invi.pages.open;
 
+import invi.pages.BasePage;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-
-public class SignInPage {
-    private MobileDriver<MobileElement> driver;
-    private WebDriverWait wait;
+public class SignInPage extends BasePage {
 
     @AndroidFindBy(className = "UIAKeyboard")
     private MobileElement keyboard;
@@ -29,39 +23,14 @@ public class SignInPage {
     private MobileElement emailInputErrorLabel;
 
     public SignInPage(MobileDriver<MobileElement> driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver,20);
-        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-    }
-
-    public void hideKeyboardIfVisible() {
-        if (this.keyboard != null) {
-            this.driver.hideKeyboard();
-        }
-    }
-
-    public void typeEmail(String email) {
-        this.wait.until(ExpectedConditions.visibilityOf(this.emailInput));
-        this.emailInput.clear();
-        this.emailInput.sendKeys(email);
-    }
-
-    public void typePassword(String password) {
-        this.wait.until(ExpectedConditions.visibilityOf(this.passwordInput));
-        this.passwordInput.clear();
-        this.passwordInput.sendKeys(password);
-    }
-
-    public void clickSignIn() {
-        this.wait.until(ExpectedConditions.visibilityOf(this.signInButton));
-        this.signInButton.click();
+        super(driver);
     }
 
     public void signIn(String email, String password) {
-        hideKeyboardIfVisible();
-        typeEmail(email);
-        typePassword(password);
-        clickSignIn();
+        hideKeyboardIfVisible(keyboard);
+        type(emailInput, email);
+        type(passwordInput, password);
+        tapOn(signInButton);
     }
 
     public MobileElement getEmailInputErrorLabel() {
