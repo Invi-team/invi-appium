@@ -9,10 +9,9 @@ public class Date {
     public String getCurrentDate() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String dateString = formatter.format(calendar.getTime());
-        dateString = dateString
+
+        return dateString
                 .replaceAll(" ", "_")
                 .replaceAll(":", "-");
-
-        return dateString;
     }
 }

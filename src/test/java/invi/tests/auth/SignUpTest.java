@@ -10,7 +10,7 @@ import invi.pages.open.SignUpPage;
 import invi.utils.Constants;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -44,7 +44,7 @@ public class SignUpTest {
         LandingPage landingPage = new LandingPage(driver);
         SignUpPage signUpPage = new SignUpPage(driver);
         MainPage mainPage = new MainPage(driver);
-
+        WebDriverWait wait = new WebDriverWait(driver, 20);
 
         landingPage.selectSignUp();
         signUpPage.signUp(Constants.EMPTY, incorrectPassword);
@@ -54,9 +54,7 @@ public class SignUpTest {
         Assert.assertEquals(Constants.EMAIL_FORMAT_ERROR_MESSAGE, signUpPage.getErrorInputLabel().getText());
 
         signUpPage.signUp(email, password);
-
-        WebDriverWait wait = new WebDriverWait(driver, 20);
-        wait.until(ExpectedConditions.visibilityOf(mainPage.getLogOutButton()));
+        wait.until(visibilityOf(mainPage.getLogOutButton()));
         Assert.assertNotNull(mainPage.getLogOutButton());
     }
 }

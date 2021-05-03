@@ -10,7 +10,7 @@ import invi.pages.open.SignInPage;
 import invi.utils.Constants;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -55,7 +55,7 @@ public class LogInTest {
         Assert.assertEquals(Constants.EMAIL_FORMAT_ERROR_MESSAGE, signInPage.getEmailInputErrorLabel().getText());
 
         signInPage.signIn(email, password);
-        wait.until(ExpectedConditions.visibilityOf(mainPage.getLogOutButton()));
+        wait.until(visibilityOf(mainPage.getLogOutButton()));
         Assert.assertTrue(mainPage.getLogOutButton().isDisplayed());
     }
 }

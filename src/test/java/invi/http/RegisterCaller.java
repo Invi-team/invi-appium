@@ -15,14 +15,13 @@ public class RegisterCaller implements ApiCaller {
     private final Logger LOGGER = Logger.getLogger(RegisterCaller.class.getName());
 
     public HttpResponse call(DataBean registerBean) throws InterruptedException, IOException {
-        Urls urls = new Urls();
         String requestBody = new ObjectMapper().writeValueAsString(registerBean);
 
         HttpClient client = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
                 .build();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(urls.register()))
+                .uri(URI.create(Urls.register()))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();

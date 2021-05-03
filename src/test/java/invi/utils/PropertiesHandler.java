@@ -29,7 +29,7 @@ public class PropertiesHandler {
             LOGGER.config("could not load " + fileName + " config.properties file");
         }
 
-        return this.configProperties.getProperty(propertyKey);
+        return configProperties.getProperty(propertyKey);
     }
 
     public void setProperty(String fileName, String propertyKey, String propertyValue) {
