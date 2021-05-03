@@ -34,7 +34,7 @@ public class DeviceManager {
         mobileSystem = system;
         if(mobileSystem.equals(SYSTEM_ANDROID)) {
             try {
-                String appiumHost = PropertiesHandler.getProperty("config.properties", "appium.host");
+                String appiumHost = new PropertiesHandler().getProperty("config.properties", "appium.host");
                 mobileDriver.set(new AndroidDriver<MobileElement>(new URL(appiumHost), capabilities));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -45,7 +45,14 @@ public class DeviceManager {
     public void initAppState(Map<String, String> params) {
         if(mobileSystem.equals(SYSTEM_ANDROID)) {
             AndroidDriver driver = (AndroidDriver) mobileDriver.get();
-            driver.startActivity(new Activity(params.get("packageName"), params.get("activity")));
+            if(params.containsKey("token")) {
+                driver.startActivity(
+                        new Activity(params.get("packageName"),
+                        params.get("activity")).setOptionalIntentArguments(params.get("token"))
+                );
+            } else {
+                driver.startActivity(new Activity(params.get("packageName"), params.get("activity")));
+            }
         }
     }
 }
