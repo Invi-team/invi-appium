@@ -4,12 +4,10 @@ import invi.pages.BasePage;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 
 public class SignUpPage extends BasePage {
-    private MobileDriver<MobileElement> driver;
-    private WebDriverWait wait;
 
     @AndroidFindBy(className = "UIAKeyboard")
     private MobileElement keyboard;
@@ -20,10 +18,13 @@ public class SignUpPage extends BasePage {
     @AndroidFindBy(id = "etPassword")
     private MobileElement passwordInput;
 
+    @AndroidFindBy(id = "etPasswordRepeat")
+    private MobileElement repeatPasswordInput;
+
     @AndroidFindBy(id = "btnSignUp")
     private MobileElement signUpButton;
 
-    @AndroidFindBy(id = "textinput_error")
+    @AndroidFindBy(id = "com.kiksoft.invi:id/textinput_error")
     private MobileElement errorInputLabel;
 
     public SignUpPage(MobileDriver<MobileElement> driver) {
@@ -34,10 +35,12 @@ public class SignUpPage extends BasePage {
         hideKeyboardIfVisible(keyboard);
         type(emailInput, email);
         type(passwordInput, password);
+        type(repeatPasswordInput, password);
         tapOn(signUpButton);
     }
 
     public MobileElement getErrorInputLabel() {
+        wait.until(visibilityOf(errorInputLabel));
         return errorInputLabel;
     }
 }

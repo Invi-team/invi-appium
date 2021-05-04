@@ -5,6 +5,8 @@ import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+
 public class SignInPage extends BasePage {
 
     @AndroidFindBy(className = "UIAKeyboard")
@@ -34,6 +36,7 @@ public class SignInPage extends BasePage {
     }
 
     public MobileElement getEmailInputErrorLabel() {
+        wait.until(visibilityOf(emailInputErrorLabel));
         return emailInputErrorLabel;
     }
 }

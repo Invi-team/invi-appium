@@ -10,7 +10,6 @@ import invi.pages.open.SignInPage;
 import invi.utils.Constants;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -19,6 +18,8 @@ import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 
 
 @Listeners({
@@ -37,7 +38,6 @@ public class LogInTest {
 
         driver = deviceManager.getDriver();
         driver.resetApp();
-        deviceManager.initAppState(params);
     }
 
     @Test(dataProvider = "logInData", dataProviderClass = LogInData.class)
