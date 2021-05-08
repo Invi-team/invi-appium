@@ -21,7 +21,6 @@ import java.util.Map;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 
-
 @Listeners({
         ExtentITestListenerClassAdapter.class,
         TestListener.class

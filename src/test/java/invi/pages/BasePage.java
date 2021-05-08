@@ -1,6 +1,7 @@
 package invi.pages;
 
 import invi.utils.PropertiesHandler;
+import invi.utils.System;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
@@ -25,13 +26,12 @@ public abstract class BasePage {
     public BasePage(MobileDriver<MobileElement> driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, 20);
-        mobileSystem = new PropertiesHandler().getProperty("config.properties", "device.system");
 
-        //if (mobileSystem.equals(SYSTEM_ANDROID)) {
+        if (System.ANDROID.isActive()) {
             touchAction = new AndroidTouchAction(driver);
-        //} else if (mobileSystem.equals(SYSTEM_IOS)) {
-        //    touchAction = new IOSTouchAction(driver);
-        //}
+        } else if (System.IOS.isActive()) {
+            touchAction = new IOSTouchAction(driver);
+        }
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
@@ -55,7 +55,6 @@ public abstract class BasePage {
     public void tapPoint(MobileElement element, int x, int y){
         wait.until(visibilityOf(element));
         Point location = element.getLocation();
-        Point center = element.getCenter();
         int pointX = location.x + x;
         int pointY = location.y + y;
 

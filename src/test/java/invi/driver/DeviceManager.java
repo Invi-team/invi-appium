@@ -1,6 +1,7 @@
 package invi.driver;
 
 import invi.utils.PropertiesHandler;
+import invi.utils.System;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.Activity;
@@ -13,11 +14,7 @@ import java.util.logging.Logger;
 
 public class DeviceManager {
     private static final Logger LOGGER = Logger.getLogger(DeviceManager.class.getName());
-    private static final String SYSTEM_ANDROID = "Android";
-    private static final String SYSTEM_IOS = "iOS";
     private static ThreadLocal<MobileDriver> mobileDriver = new ThreadLocal<MobileDriver>();
-    private static String mobileSystem;
-
 
     public DeviceManager() {
     }
@@ -30,9 +27,9 @@ public class DeviceManager {
         mobileDriver.get().quit();
     }
 
-    public void setDeviceDriver(String system, DesiredCapabilities capabilities) {
-        mobileSystem = system;
-        if(mobileSystem.equals(SYSTEM_ANDROID)) {
+    public void setDeviceDriver(DesiredCapabilities capabilities) {
+
+        if(System.ANDROID.isActive()) {
             try {
                 String appiumHost = new PropertiesHandler().getProperty("config.properties", "appium.host");
                 mobileDriver.set(new AndroidDriver<MobileElement>(new URL(appiumHost), capabilities));
@@ -43,7 +40,7 @@ public class DeviceManager {
     }
 
     public void initAppState(Map<String, String> params) {
-        if(mobileSystem.equals(SYSTEM_ANDROID)) {
+        if(System.ANDROID.isActive()) {
             AndroidDriver driver = (AndroidDriver) mobileDriver.get();
             if(params.containsKey("token")) {
                 driver.startActivity(

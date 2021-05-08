@@ -3,6 +3,7 @@ package invi.listeners;
 import invi.capabilities.Device;
 import invi.driver.DeviceFactory;
 import invi.driver.DeviceManager;
+import invi.utils.System;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
 
@@ -18,7 +19,12 @@ public class SuiteListener implements ISuiteListener {
         String deviceSystem = suite.getParameter("system");
         Device device = deviceFactory.createDevice(deviceName);
 
-        deviceManager.setDeviceDriver(deviceSystem, device.getCapabilities());
+        if (deviceSystem.equals("Android")) {
+            System.ANDROID.setActive(true);
+        } else if (deviceSystem.equals("iOS")) {
+            System.IOS.setActive(true);
+        }
+        deviceManager.setDeviceDriver(device.getCapabilities());
     }
 
     public void onFinish(ISuite suite) {
