@@ -1,6 +1,5 @@
 package invi.pages;
 
-import invi.utils.PropertiesHandler;
 import invi.utils.System;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
@@ -16,12 +15,9 @@ import static io.appium.java_client.touch.offset.PointOption.point;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 
 public abstract class BasePage {
-    private static final String SYSTEM_ANDROID = "Android";
-    private static final String SYSTEM_IOS = "iOS";
     public MobileDriver<MobileElement> driver;
     public WebDriverWait wait;
     public TouchAction touchAction;
-    public String mobileSystem;
 
     public BasePage(MobileDriver<MobileElement> driver) {
         this.driver = driver;
