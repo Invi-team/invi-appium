@@ -29,7 +29,7 @@ public class DeviceManager {
 
     public void setDeviceDriver(DesiredCapabilities capabilities) {
 
-        if(System.ANDROID.isActive()) {
+        if(System.ANDROID.isActive) {
             try {
                 String appiumHost = new PropertiesHandler().getProperty("config.properties", "appium.host");
                 mobileDriver.set(new AndroidDriver<MobileElement>(new URL(appiumHost), capabilities));
@@ -40,7 +40,7 @@ public class DeviceManager {
     }
 
     public void initAppState(Map<String, String> params) {
-        if(System.ANDROID.isActive()) {
+        if(System.ANDROID.isActive) {
             AndroidDriver driver = (AndroidDriver) mobileDriver.get();
             if(params.containsKey("token")) {
                 driver.startActivity(
