@@ -18,7 +18,7 @@ public class LandingPage extends BasePage {
     }
 
     public void selectSignUp() {
-        tapPoint(signUpLinkButton, 550, 30);
+        tapPoint(signUpLinkButton, 90, 50);
     }
 
     public void selectSignIn() {
