@@ -10,7 +10,6 @@ import invi.pages.open.SignUpPage;
 import invi.utils.Constants;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -19,6 +18,8 @@ import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 
 @Listeners({
         ExtentITestListenerClassAdapter.class,
@@ -36,7 +37,6 @@ public class SignUpTest {
 
         driver = deviceManager.getDriver();
         driver.resetApp();
-        deviceManager.initAppState(params);
     }
 
     @Test(dataProvider = "signUpData", dataProviderClass = SignUpData.class)

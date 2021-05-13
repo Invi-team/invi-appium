@@ -1,17 +1,13 @@
 package invi.pages.open;
 
+import invi.pages.BasePage;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 
-public class SignUpPage {
-    private MobileDriver<MobileElement> driver;
-    private WebDriverWait wait;
+public class SignUpPage extends BasePage {
 
     @AndroidFindBy(className = "UIAKeyboard")
     private MobileElement keyboard;
@@ -22,49 +18,29 @@ public class SignUpPage {
     @AndroidFindBy(id = "etPassword")
     private MobileElement passwordInput;
 
+    @AndroidFindBy(id = "etPasswordRepeat")
+    private MobileElement repeatPasswordInput;
+
     @AndroidFindBy(id = "btnSignUp")
     private MobileElement signUpButton;
 
-    @AndroidFindBy(id = "textinput_error")
+    @AndroidFindBy(id = "com.kiksoft.invi:id/textinput_error")
     private MobileElement errorInputLabel;
 
     public SignUpPage(MobileDriver<MobileElement> driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver,20);
-        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-    }
-
-    public void hideKeyboardIfVisible() {
-        if (this.keyboard != null) {
-            this.driver.hideKeyboard();
-        }
-    }
-
-    public void typeEmail(String email) {
-        this.wait.until(ExpectedConditions.visibilityOf(this.emailInput));
-        this.emailInput.clear();
-        this.emailInput.sendKeys(email);
-    }
-
-    public void typePassword(String password) {
-        this.wait.until(ExpectedConditions.visibilityOf(this.passwordInput));
-        this.passwordInput.clear();
-        this.passwordInput.sendKeys(password);
-    }
-
-    public void clickSignUp() {
-        this.wait.until(ExpectedConditions.visibilityOf(this.signUpButton));
-        this.signUpButton.click();
+        super(driver);
     }
 
     public void signUp(String email, String password) {
-        hideKeyboardIfVisible();
-        typeEmail(email);
-        typePassword(password);
-        clickSignUp();
+        hideKeyboardIfVisible(keyboard);
+        type(emailInput, email);
+        type(passwordInput, password);
+        type(repeatPasswordInput, password);
+        tapOn(signUpButton);
     }
 
     public MobileElement getErrorInputLabel() {
-        return this.errorInputLabel;
+        wait.until(visibilityOf(errorInputLabel));
+        return errorInputLabel;
     }
 }
