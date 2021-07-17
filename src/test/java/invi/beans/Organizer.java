@@ -12,7 +12,7 @@ public class Organizer implements DataBean {
     private String phoneNumber;
     private String type;
 
-    @JsonSetter("id")
+    @JsonGetter("id")
     public String getId() {
         return id;
     }
