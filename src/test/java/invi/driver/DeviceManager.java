@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 public class DeviceManager {
     private static final Logger LOGGER = Logger.getLogger(DeviceManager.class.getName());
     private static ThreadLocal<MobileDriver> mobileDriver = new ThreadLocal<MobileDriver>();
+    private final PropertiesHandler propertiesHandler = new PropertiesHandler();
+
 
     public DeviceManager() {
     }
@@ -32,7 +34,7 @@ public class DeviceManager {
         if(System.ANDROID.isActive) {
             try {
                 String appiumHost = new PropertiesHandler().getProperty("config.properties", "appium.host");
-                mobileDriver.set(new AndroidDriver<MobileElement>(new URL(appiumHost), capabilities));
+                mobileDriver.set(new AndroidDriver<MobileElement>(new URL("http://localhost:4444/wd/hub"), capabilities));
             } catch (Exception e) {
                 e.printStackTrace();
             }
