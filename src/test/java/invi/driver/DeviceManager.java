@@ -17,7 +17,6 @@ public class DeviceManager {
     private static ThreadLocal<MobileDriver> mobileDriver = new ThreadLocal<MobileDriver>();
     private final PropertiesHandler propertiesHandler = new PropertiesHandler();
 
-
     public DeviceManager() {
     }
 
@@ -34,7 +33,7 @@ public class DeviceManager {
         if(System.ANDROID.isActive) {
             try {
                 String appiumHost = new PropertiesHandler().getProperty("config.properties", "appium.host");
-                mobileDriver.set(new AndroidDriver<MobileElement>(new URL("http://localhost:4444/wd/hub"), capabilities));
+                mobileDriver.set(new AndroidDriver<MobileElement>(new URL(appiumHost), capabilities));
             } catch (Exception e) {
                 e.printStackTrace();
             }
