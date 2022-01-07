@@ -7,11 +7,12 @@ public class Date {
     private Calendar calendar = Calendar.getInstance();
 
     public String getCurrentDate() {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
         String dateString = formatter.format(calendar.getTime());
 
         return dateString
                 .replaceAll(" ", "_")
-                .replaceAll(":", "-");
+                .replaceAll(":", "-")
+                .replaceAll("\\.", "-");
     }
 }

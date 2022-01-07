@@ -7,7 +7,7 @@ import org.testng.annotations.DataProvider;
 public class AddEventGuestData extends TestDataProvider {
 
     @DataProvider(name = "addEventGuestData")
-    public Object[][] provideData() {
+    public static Object[][] provideData() {
         return new Object[][]{new Object[]{}};
     }
 }

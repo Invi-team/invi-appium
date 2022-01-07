@@ -1,6 +1,5 @@
 package invi.utils;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,19 +7,14 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 public class PropertiesHandler {
-    private final Logger LOGGER = Logger.getLogger(PropertiesHandler.class.getName());
-    private static PropertiesHandler instance = null;
-    private String rootPath;
-    private String configPropertiesPath;
+    private static final Logger LOGGER = Logger.getLogger(PropertiesHandler.class.getName());
     private Properties configProperties;
 
     public String getProperty(String fileName, String propertyKey) {
-        rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        configPropertiesPath = rootPath + fileName;
         configProperties = new Properties();
 
         try {
-            configProperties.load(new FileInputStream(configPropertiesPath));
+            configProperties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             LOGGER.config("could not find " + fileName + " config.properties file");
@@ -28,15 +22,11 @@ public class PropertiesHandler {
             e.printStackTrace();
             LOGGER.config("could not load " + fileName + " config.properties file");
         }
-
         return configProperties.getProperty(propertyKey);
     }
 
     public void setProperty(String fileName, String propertyKey, String propertyValue) {
-        rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        configPropertiesPath = rootPath + fileName;
         configProperties = new Properties();
-
         configProperties.setProperty(propertyKey, propertyValue);
 
         try {
