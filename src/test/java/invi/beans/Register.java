@@ -10,6 +10,7 @@ public class Register implements DataBean {
     private String deviceId;
     private String email;
     private String password;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String userId;
 
