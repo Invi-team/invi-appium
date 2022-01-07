@@ -14,10 +14,9 @@ public class DeviceFactory {
             Class<?> driverClass = Class.forName(deviceName);
             Constructor<?> constructor = driverClass.getConstructor();
             device =  (Device) constructor.newInstance();
-            LOGGER.info("Device created successfully");
         } catch (Exception e) {
-            e.printStackTrace();
             LOGGER.info("Could not create device with device parameter: " + device);
+            LOGGER.info(e.getMessage());
         }
         return device;
     }
