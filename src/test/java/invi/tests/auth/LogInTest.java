@@ -55,8 +55,4 @@ public class LogInTest {
         wait.until(visibilityOf(mainPage.getLogOutButton()));
         Assert.assertTrue(mainPage.getLogOutButton().isDisplayed());
     }
-
-    @AfterTest
-    public void teardown() {
-    }
 }

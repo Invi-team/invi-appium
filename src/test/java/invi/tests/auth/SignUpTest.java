@@ -54,8 +54,4 @@ public class SignUpTest {
         wait.until(visibilityOf(mainPage.getLogOutButton()));
         Assert.assertNotNull(mainPage.getLogOutButton());
     }
-
-    @AfterTest
-    public void teardown() {
-    }
 }
