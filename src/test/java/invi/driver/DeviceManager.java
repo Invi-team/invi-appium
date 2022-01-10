@@ -32,10 +32,11 @@ public class DeviceManager {
 
         if(System.ANDROID.isActive) {
             try {
-                String appiumHost = new PropertiesHandler().getProperty("config.properties", "appium.host");
+                String appiumHost = propertiesHandler.getProperty("config.properties", "appium.host");
                 mobileDriver.set(new AndroidDriver<MobileElement>(new URL(appiumHost), capabilities));
+                LOGGER.info("Driver created: " + mobileDriver.toString());
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.info("Could not create Android driver: " + e.getMessage());
             }
         }
     }

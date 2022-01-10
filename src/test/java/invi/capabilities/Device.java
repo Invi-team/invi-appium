@@ -4,5 +4,5 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 public interface Device {
     public final static String APK_PATH = "app-debug.apk";
-    public DesiredCapabilities getCapabilities();
+    public DesiredCapabilities getDc();
 }

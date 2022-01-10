@@ -4,10 +4,10 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 
-public class AndroidEmulator implements Device {
+public class EmulatorLocal implements Device{
     private DesiredCapabilities dc = new DesiredCapabilities();
 
-    public AndroidEmulator() {
+    public EmulatorLocal() {
         File file = new File(Device.APK_PATH);
         String apkPath = file.getAbsoluteFile().getPath();
 
@@ -16,12 +16,15 @@ public class AndroidEmulator implements Device {
         dc.setCapability("appActivity", ".splash.SplashActivity");
         dc.setCapability("app", apkPath);
         dc.setCapability("appPackage", "com.kiksoft.invi");
-//        dc.setCapability("deviceName", "Pixel 3 API 30");
+        dc.setCapability("deviceName", "Pixel 3 API 30");
         dc.setCapability("allowTestPackages", "true");
         dc.setCapability("automationName", "UiAutomator2");
+        dc.setCapability("appWaitActivity", ".splash.SplashActivity, com.kiksoft.auth.welcome.WelcomeActivity");
+        dc.setCapability("appWaitPackage", "com.kiksoft.invi, ");
+        dc.setCapability("appWaitDuration", "50000");
     }
 
-    public DesiredCapabilities getCapabilities() {
+    public DesiredCapabilities getDc() {
         return dc;
     }
 }
