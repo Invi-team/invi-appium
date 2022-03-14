@@ -8,6 +8,28 @@
 git clone https://github.com/flowerasny/invi-appium.git
 ````
 
+##### create local test suite
+
+create file named testng-local.xml in /test/resources catalog, eg.
+
+````
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="allAndroidEmulator" verbose="1" >
+    <listeners>
+        <listener class-name="invi.listeners.SuiteListener"></listener>
+    </listeners>
+    <parameter name="device" value="invi.capabilities.EmulatorLocal"></parameter>
+    <parameter name="system" value="Android"></parameter>
+    <test name="android">
+        <classes>
+            <class name="invi.tests.auth.LogInTest" ></class>
+            <class name="invi.tests.auth.SignUpTest"></class>
+        </classes>
+    </test>
+</suite>
+````
+
 ##### install appium
 ````
 brew install appium
@@ -15,33 +37,19 @@ brew install appium
 
 ##### create android emulators
 Open android AVD Manager and create virtual devices
-Name of device must be then set as browserName in nodeconfig file
+Platform version must be set to 11 (or different, but equal to 'platformVersion' capability in EmulatorLocal class)
 
-
-##### download Selenium Grid server (version 3)
-Go to https://www.selenium.dev/downloads/ and find selenium-server-standalone-3.141.59.jar - lastest version of selenium 3
-(appium still does not work well with version 4)
+##### download and install Appium Desktop
+https://github.com/appium/appium-desktop/releases/tag/v1.22.2
 
 ### local run
 
 - move app-debug.apk to main project's directory
 
-- start android emulator (emulator's udid must be set in nodeconfig file)
+- start android emulator
 
-- open first terminal window and run previosuly downloaded selenium server jar as hub
-export ANDROID_SDK_ROOT first - appium has issue to detect the variable.
-
-````
-export ANDROID_SDK_ROOT=/Users/{user}/Library/Android/sdk
-java -jar selenium-server-standalone-3.141.59.jar -role hub
-````
-
-- run appium node
-````
-export ANDROID_SDK_ROOT=/Users/{user}/Library/Android/sdk
-appium -p 4723 --nodeconfig nodeconfig-android.json
-````
-
-- go to grid console (localhost:4444/grid/console) and verify if emulator is listed there
+- start appium server
 
 - start test suite from Intellj Idea
+
+
