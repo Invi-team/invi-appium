@@ -8,6 +8,14 @@
 git clone https://github.com/flowerasny/invi-appium.git
 ````
 
+##### create config.properties
+
+create config properties file in resources directory
+set values for keys:
+    appium.host
+    invi.api.baseurl
+    invi.accounts.password
+
 ##### create local test suite
 
 create file named testng-local.xml in /test/resources catalog, eg.
