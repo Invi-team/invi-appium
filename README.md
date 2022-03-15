@@ -12,9 +12,9 @@ git clone https://github.com/flowerasny/invi-appium.git
 
 create config properties file in resources directory
 set values for keys:
-    appium.host
-    invi.api.baseurl
-    invi.accounts.password
+- appium.host
+- invi.api.baseurl
+- invi.accounts.password
 
 ##### create local test suite
 
