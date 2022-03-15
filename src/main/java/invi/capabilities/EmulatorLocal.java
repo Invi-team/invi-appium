@@ -12,7 +12,7 @@ public class EmulatorLocal implements Device{
         String apkPath = file.getAbsoluteFile().getPath();
 
         dc.setCapability("platformName", "Android");
-        dc.setCapability("platfgit branchormVersion", "11");
+        dc.setCapability("platformVersion", "11");
         dc.setCapability("appActivity", ".splash.SplashActivity");
         dc.setCapability("app", apkPath);
         dc.setCapability("appPackage", "com.kiksoft.invi");

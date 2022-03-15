@@ -3,6 +3,7 @@ package invi.runners;
 
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.regions.Regions;
+import com.amazonaws.retry.RetryPolicy;
 import com.amazonaws.services.devicefarm.AWSDeviceFarmClient;
 import com.amazonaws.services.devicefarm.model.*;
 import invi.exceptions.IncorrectDeviceFarmUploadException;
@@ -33,7 +34,7 @@ public class AwsRunner implements TestRunner {
     private static final String TEST_TYPE = "APPIUM_JAVA_TESTNG";
     private static final String APP_TYPE_ANDROID = "ANDROID_APP";
     private static final String APP_TYPE_IOS = "IOS_APP";
-    private AWSDeviceFarmClient awsClient;
+    private AWSDeviceFarmClient deviceFarmClient;
     private OkHttpClient httpClient = new OkHttpClient();
     private Date date = new Date();
 
@@ -58,7 +59,7 @@ public class AwsRunner implements TestRunner {
                 .withType(type)
                 .withName(uploadName)
                 .withContentType(contentType);
-        Upload uploadResult = awsClient.createUpload(uploadRequest).getUpload();
+        Upload uploadResult = deviceFarmClient.createUpload(uploadRequest).getUpload();
 
         String uploadArn = uploadResult.getArn();
         String uploadUrl = uploadResult.getUrl();
@@ -97,29 +98,30 @@ public class AwsRunner implements TestRunner {
             } catch (InterruptedException e) {
                 LOGGER.severe(e.getMessage());
             }
-            uploadResult = awsClient.getUpload(new GetUploadRequest().withArn(uploadArn)).getUpload();
+            uploadResult = deviceFarmClient.getUpload(new GetUploadRequest().withArn(uploadArn)).getUpload();
         }
         return uploadArn;
     }
 
     public void run() {
-//        ClientConfiguration clientConfiguration = new ClientConfiguration();
-//            clientConfiguration.setDisableSocketProxy(true);
+        ClientConfiguration clientConfiguration = new ClientConfiguration();
+        clientConfiguration.setRetryPolicy(new RetryPolicy(null, null, 25, true));
 
         //   create client and upload files
-        awsClient = (AWSDeviceFarmClient) AWSDeviceFarmClient
+        deviceFarmClient = (AWSDeviceFarmClient) AWSDeviceFarmClient
                 .builder()
                 .withRegion(Regions.US_EAST_2)
+                .withClientConfiguration(clientConfiguration)
                 .build();
 
         String appArn = null;
-        String testSpec = null;
+        String testSpecArn = null;
         if (System.ANDROID.isActive) {
             appArn = uploadDeviceFarmFile(APK_PATH, APP_TYPE_ANDROID);
-            testSpec = TEST_SPEC_ARN_ANDROID;
+            testSpecArn = TEST_SPEC_ARN_ANDROID;
         } else if (System.IOS.isActive) {
             appArn = uploadDeviceFarmFile(IPA_PATH, APP_TYPE_IOS);
-            testSpec = TEST_SPEC_ARN_IOS;
+            testSpecArn = TEST_SPEC_ARN_IOS;
         }
         LOGGER.info("App uploaded successfully. Upload arn is " + appArn);
         String testPackageArn = uploadDeviceFarmFile(TEST_PACKAGE, TEST_PACKAGE_TYPE);
@@ -128,7 +130,7 @@ public class AwsRunner implements TestRunner {
         // start test run
         ScheduleRunTest scheduleRunTest = new ScheduleRunTest()
                 .withType(TEST_TYPE)
-                .withTestSpecArn(testSpec)
+                .withTestSpecArn(testSpecArn)
                 .withTestPackageArn(testPackageArn);
 
         ScheduleRunRequest runRequest = new ScheduleRunRequest()
@@ -138,7 +140,7 @@ public class AwsRunner implements TestRunner {
                 .withName("test run " + dateUtils.getCurrentDate())
                 .withTest(scheduleRunTest);
 
-        ScheduleRunResult runResult = awsClient.scheduleRun(runRequest);
+        ScheduleRunResult runResult = deviceFarmClient.scheduleRun(runRequest);
 
         String runArn = runResult.getRun().getArn();
         String runStartTime = dateUtils.getCurrentDate();
@@ -146,13 +148,13 @@ public class AwsRunner implements TestRunner {
 
         try {
             while (true) {
-                Run run = awsClient.getRun(new GetRunRequest().withArn(runArn)).getRun();
+                Run run = deviceFarmClient.getRun(new GetRunRequest().withArn(runArn)).getRun();
                 if (run.getStatus() == RUN_STATUS_COMPLETED || run.getStatus() == RUN_STATUS_ERRORED) {
                     LOGGER.info("Test run finished with status " + run.getStatus());
                 }
             }
         } catch (Exception e) {
-            awsClient.stopRun(new StopRunRequest().withArn(runArn));
+            deviceFarmClient.stopRun(new StopRunRequest().withArn(runArn));
             java.lang.System.exit(1);
         }
 
