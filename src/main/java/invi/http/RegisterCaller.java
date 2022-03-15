@@ -18,7 +18,7 @@ public class RegisterCaller implements ApiCaller {
 
         Request request = new Request.Builder()
                 .url(Urls.register())
-                .post(RequestBody.create(MediaType.parse("application/json"), requestBody))
+                .post(RequestBody.create(requestBody, MediaType.parse("application/json")))
                 .build();
 
         Response response = client.newCall(request).execute();

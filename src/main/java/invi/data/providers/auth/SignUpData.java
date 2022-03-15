@@ -3,7 +3,6 @@ package invi.data.providers.auth;
 import invi.data.providers.TestDataProvider;
 import org.testng.annotations.DataProvider;
 
-import java.util.Random;
 import java.util.logging.Logger;
 
 public class SignUpData extends TestDataProvider {
