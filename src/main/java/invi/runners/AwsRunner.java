@@ -1,9 +1,6 @@
 package invi.runners;
 
-
-import com.amazonaws.ClientConfiguration;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.retry.RetryPolicy;
 import com.amazonaws.services.devicefarm.AWSDeviceFarmClient;
 import com.amazonaws.services.devicefarm.model.*;
 import invi.exceptions.IncorrectDeviceFarmUploadException;
@@ -29,7 +26,7 @@ public class AwsRunner implements TestRunner {
     private static final String TEST_SPEC_ARN_ANDROID = "arn:aws:devicefarm:us-west-2:371251128933:upload:98c1412e-f7a9-43f6-8f81-76ed8c70e1ab/e23c0a3f-e1b6-4b26-befc-fc028bdb0dbe";
     private static final String TEST_SPEC_ARN_IOS = "";
     private static final String SINGLE_DEVICE_POOL_ARN = "arn:aws:devicefarm:us-west-2:371251128933:devicepool:98c1412e-f7a9-43f6-8f81-76ed8c70e1ab/edfd24ee-2594-47eb-8c1b-c5361f2abca8";
-    private static final String TEST_PACKAGE = "zip-with-dependencies.zip";
+    private static final String TEST_PACKAGE = "target/zip-with-dependencies.zip";
     private static final String TEST_PACKAGE_TYPE = "APPIUM_JAVA_TESTNG_TEST_PACKAGE";
     private static final String TEST_TYPE = "APPIUM_JAVA_TESTNG";
     private static final String APP_TYPE_ANDROID = "ANDROID_APP";
@@ -51,7 +48,7 @@ public class AwsRunner implements TestRunner {
     //        upload app file to device farm
     private String uploadDeviceFarmFile(String path, String type) {
         File file = new File(path);
-        String uploadName = "upload-" + file.getName() + "-" + dateUtils.getCurrentDate();
+        String uploadName = dateUtils.getCurrentDate() + "-" + file.getName();
         String contentType = "application/octet-stream";
 
         CreateUploadRequest uploadRequest = new CreateUploadRequest()
@@ -59,20 +56,20 @@ public class AwsRunner implements TestRunner {
                 .withType(type)
                 .withName(uploadName)
                 .withContentType(contentType);
-        Upload uploadResult = deviceFarmClient.createUpload(uploadRequest).getUpload();
+        
+        Upload upload = deviceFarmClient.createUpload(uploadRequest).getUpload();
 
-        String uploadArn = uploadResult.getArn();
-        String uploadUrl = uploadResult.getUrl();
+        String uploadArn = upload.getArn();
+        String uploadUrl = upload.getUrl();
         RequestBody body = RequestBody.create(file, MediaType.parse(contentType));
         Request request = new Request.Builder()
                 .url(uploadUrl)
                 .put(body)
                 .build();
         Response response = null;
-        LOGGER.info("Upload " + file.getName() + "started at " + LocalDateTime.now());
+        LOGGER.info("Upload " + file.getName() + " started at " + LocalDateTime.now());
         try {
             response = httpClient.newCall(request).execute();
-
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -85,33 +82,30 @@ public class AwsRunner implements TestRunner {
             );
         }
         while (true) {
-            if (uploadResult.getStatus() == UPLOAD_STATUS_SUCCEEDED) {
+            if (upload.getStatus().equals(UPLOAD_STATUS_SUCCEEDED)) {
                 break;
-            } else if (uploadResult.getStatus() == UPLOAD_STATUS_FAILED) {
+            } else if (upload.getStatus().equals(UPLOAD_STATUS_FAILED)) {
+                String message = upload.getMessage();
+                if(upload.getMessage() == null) {
+                    message = upload.getMetadata();
+                } else {
+                    message = upload.getMessage();
+                }
                 throw new IncorrectDeviceFarmUploadException(
                         "The upload failed processing. DeviceFarm says reason is: \n"
-                                + uploadResult.getMessage()
+                                + message
                 );
             }
-            try {
-                Thread.currentThread().wait(5000);
-            } catch (InterruptedException e) {
-                LOGGER.severe(e.getMessage());
-            }
-            uploadResult = deviceFarmClient.getUpload(new GetUploadRequest().withArn(uploadArn)).getUpload();
+            upload = deviceFarmClient.getUpload(new GetUploadRequest().withArn(uploadArn)).getUpload();
         }
         return uploadArn;
     }
 
     public void run() {
-        ClientConfiguration clientConfiguration = new ClientConfiguration();
-        clientConfiguration.setRetryPolicy(new RetryPolicy(null, null, 25, true));
-
         //   create client and upload files
         deviceFarmClient = (AWSDeviceFarmClient) AWSDeviceFarmClient
                 .builder()
-                .withRegion(Regions.US_EAST_2)
-                .withClientConfiguration(clientConfiguration)
+                .withRegion(Regions.US_WEST_2)
                 .build();
 
         String appArn = null;
@@ -149,8 +143,9 @@ public class AwsRunner implements TestRunner {
         try {
             while (true) {
                 Run run = deviceFarmClient.getRun(new GetRunRequest().withArn(runArn)).getRun();
-                if (run.getStatus() == RUN_STATUS_COMPLETED || run.getStatus() == RUN_STATUS_ERRORED) {
+                if (run.getStatus().equals(RUN_STATUS_COMPLETED) || run.getStatus().equals(RUN_STATUS_ERRORED)) {
                     LOGGER.info("Test run finished with status " + run.getStatus());
+                    break;
                 }
             }
         } catch (Exception e) {
