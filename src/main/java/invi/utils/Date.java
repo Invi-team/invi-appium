@@ -1,14 +1,11 @@
 package invi.utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Date {
-    private final Calendar calendar = Calendar.getInstance();
-
     public String getCurrentDate() {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss-SSS");
-
-        return formatter.format(calendar.getTime());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss-SSS");
+        return formatter.format(LocalDateTime.now());
     }
 }
