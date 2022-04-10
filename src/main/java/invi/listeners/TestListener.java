@@ -1,7 +1,7 @@
 package invi.listeners;
 
 import invi.driver.DeviceManager;
-import invi.utils.InviFile;
+import invi.utils.File;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import org.apache.commons.io.FileUtils;
@@ -11,7 +11,6 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import java.io.File;
 import java.io.IOException;
 
 public class TestListener implements ITestListener {
@@ -27,10 +26,10 @@ public class TestListener implements ITestListener {
     @Override
     public void onTestFailure(ITestResult iTestResult) {
         this.driver = deviceManager.getDriver();
-        File scrFile = ((TakesScreenshot)this.driver).getScreenshotAs(OutputType.FILE);
+        java.io.File scrFile = ((TakesScreenshot)this.driver).getScreenshotAs(OutputType.FILE);
 
         try {
-            FileUtils.copyFile(scrFile, new File("./test-output/screenshots/" + InviFile.composeNameByTestRun(iTestResult) + ".png"));
+            FileUtils.copyFile(scrFile, new java.io.File("./test-output/screenshots/" + File.composeNameByTestRun(iTestResult) + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
