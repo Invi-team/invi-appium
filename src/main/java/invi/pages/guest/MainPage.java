@@ -7,25 +7,14 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 
 public class MainPage extends BasePage {
 
-    @AndroidFindBy(id = "com.kiksoft.invi:id/ivLogout")
-    private MobileElement logOutButton;
-
-    @AndroidFindBy(id = "@android:id/button1")
-    private MobileElement confirmLogOutButton;
-
-    @AndroidFindBy(id = "@android:id/button2")
-    private MobileElement cancelLogOutButton;
+    @AndroidFindBy(id = "com.kiksoft.invi:id/ivSettings")
+    private MobileElement settingsButton;
 
     public MainPage(MobileDriver<MobileElement> driver) {
         super(driver);
     }
 
-    public MobileElement getLogOutButton() {
-        return logOutButton;
-    }
-
-    public void logOut() {
-        tapOn(logOutButton);
-        tapOn(confirmLogOutButton);
+    public void navigateToSettings() {
+        tapOn(settingsButton);
     }
 }
