@@ -2,15 +2,13 @@ package invi.utils;
 
 import org.testng.ITestResult;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-public class InviFile {
+public class File {
 
     public static String composeNameByTestRun(ITestResult iTestResult) {
         StringBuffer completeFileName = new StringBuffer();
+        Date dateUtils = new Date();
 
-        completeFileName.append(getDateToFileName());
+        completeFileName.append(dateUtils.getCurrentDate());
         completeFileName.append("_");
         completeFileName.append(iTestResult.getName());
         completeFileName.append("_");
@@ -25,12 +23,5 @@ public class InviFile {
         }
 
         return completeFileName.toString();
-    }
-
-    public static String getDateToFileName() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        String dateString = formatter.format(calendar.getTime());
-        return dateString.replaceAll(" ", "_");
     }
 }
