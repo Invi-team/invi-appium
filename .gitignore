@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 
-resources
+resources/config.properties
+resources/aws.properties
 /test-output/
 /accounts.json
 app-debug.apk

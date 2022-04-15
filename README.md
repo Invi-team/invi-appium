@@ -3,22 +3,23 @@
 
 ### local env setup
 
-##### clone this repo (install mvn and java)
+##### Clone this repo (install mvn and java)
 ````
 git clone https://github.com/flowerasny/invi-appium.git
 ````
 
-##### create config.properties
+##### Create config.properties
 
-create config properties file in resources directory
+Create config properties file in /main/resources directory and
 set values for keys:
-- appium.host
-- invi.api.baseurl
-- invi.accounts.password
+````
+appium.host
+invi.api.baseurl
+invi.accounts.password
+````
+##### Create local test suite
 
-##### create local test suite
-
-create file named testng-local.xml in /test/resources catalog, eg.
+Create file named testng-local.xml in /main/resources catalog, eg.
 
 ````
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
@@ -43,11 +44,11 @@ create file named testng-local.xml in /test/resources catalog, eg.
 brew install appium
 ````
 
-##### create android emulators
+##### Create android emulators
 Open android AVD Manager and create virtual devices
 Platform version must be set to 11 (or different, but equal to 'platformVersion' capability in EmulatorLocal class)
 
-##### download and install Appium Desktop
+##### Download and install Appium Desktop
 https://github.com/appium/appium-desktop/releases/tag/v1.22.2
 
 ### local run
@@ -60,4 +61,23 @@ https://github.com/appium/appium-desktop/releases/tag/v1.22.2
 
 - start test suite from Intellj Idea
 
+### AWS Device Farm run
+
+- move app-debug.apk to main project's directory
+- create config.properties (see local env setup)
+- create aws.properties in /main/resources
+and init values for keys:
+````
+aws.project.arn
+aws.testspec.android.arn
+aws.testspec.ios.arn
+aws.pool.arn
+````
+- set up AWS credentials on your machine https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html
+
+- start command to build zip-with-dependencies.zip
+````
+mvn install -DskipTests=true 
+````
+ - run App.java
 
