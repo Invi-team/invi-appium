@@ -4,6 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.devicefarm.AWSDeviceFarmClient;
 import com.amazonaws.services.devicefarm.model.*;
 import invi.exceptions.IncorrectDeviceFarmUploadException;
+import invi.exceptions.InvalidTestRunArgException;
 import invi.utils.PropertiesHandler;
 import invi.utils.System;
 import okhttp3.*;
@@ -11,7 +12,6 @@ import okhttp3.*;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.logging.Logger;
 
 public class AwsRunner implements TestRunner {
@@ -45,11 +45,9 @@ public class AwsRunner implements TestRunner {
 
         if (deviceSystem.equals("Android")) {
             System.ANDROID.setActive(true);
-            LOGGER.info("Detected suite system: Android");
         } else if (deviceSystem.equals("iOS")) {
             System.IOS.setActive(true);
-            LOGGER.info("Detected suite system: iOS");
-        }
+        } else throw new InvalidTestRunArgException(deviceSystem + " is not valid device system. Choose between Android and iOS");
     }
 
     //        upload app file to device farm

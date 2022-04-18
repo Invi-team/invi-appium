@@ -21,10 +21,8 @@ public class SuiteListener implements ISuiteListener {
 
         if (deviceSystem.equals("Android")) {
             System.ANDROID.setActive(true);
-            LOGGER.info("Detected suite system: Android");
         } else if (deviceSystem.equals("iOS")) {
             System.IOS.setActive(true);
-            LOGGER.info("Detected suite system: iOS");
         }
         LOGGER.info("setting device driver for " + deviceSystem);
         deviceManager.setDeviceDriver(device.getDc());

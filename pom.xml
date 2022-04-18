@@ -29,21 +29,16 @@
       <type>pom</type>
       <scope>import</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.testng/testng -->
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>7.3.0</version>
-<!--      <scope>test</scope>-->
     </dependency>
-    <!-- https://mvnrepository.com/artifact/io.appium/java-client -->
     <dependency>
       <groupId>io.appium</groupId>
       <artifactId>java-client</artifactId>
       <version>7.3.0</version>
-      <!-- https://mvnrepository.com/artifact/com.applitools/eyes-appium-java4 -->
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
     <dependency>
       <groupId>com.aventstack</groupId>
       <artifactId>extentreports-testng-adapter</artifactId>
@@ -65,22 +60,14 @@
       <artifactId>jackson-databind</artifactId>
       <version>2.12.3</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
       <version>4.9.3</version>
     </dependency>
-
   </dependencies>
-
-
-
   <build>
-<!--    <pluginManagement>&lt;!&ndash; lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) &ndash;&gt;-->
       <plugins>
-        <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
-
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
@@ -169,6 +156,17 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+        <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <mainClass>invi.App</mainClass>
+          <arguments>
+            <argument>Android</argument>
+          </arguments>
+        </configuration>
       </plugin>
     </plugins>
   </build>

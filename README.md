@@ -77,7 +77,12 @@ aws.pool.arn
 
 - start command to build zip-with-dependencies.zip
 ````
-mvn install -DskipTests=true 
+mvn clean install -DskipTests=true 
 ````
- - run App.java
+ - run App.java\
+set Android or iOS as argumant, Android is default
+
+````
+mvn exec:java -Dexec.args="Android"
+````
 
