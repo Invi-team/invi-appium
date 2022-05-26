@@ -1,5 +1,7 @@
 package invi.runners;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.devicefarm.AWSDeviceFarmClient;
 import com.amazonaws.services.devicefarm.model.*;
@@ -108,8 +110,12 @@ public class AwsRunner implements TestRunner {
 
     public void run() {
         //   create client and upload files
+        String accessKey = propertiesHandler.getProperty("aws.properties", "aws.access.key");
+        String secretKey = propertiesHandler.getProperty("aws.properties", "aws.secret.key");
+        BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
         deviceFarmClient = (AWSDeviceFarmClient) AWSDeviceFarmClient
                 .builder()
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withRegion(Regions.US_WEST_2)
                 .build();
 
