@@ -9,6 +9,7 @@ import invi.exceptions.IncorrectDeviceFarmUploadException;
 import invi.exceptions.InvalidTestRunArgException;
 import invi.utils.PropertiesHandler;
 import invi.utils.System;
+import invi.capabilities.Device;
 import okhttp3.*;
 
 import java.io.File;
@@ -24,7 +25,7 @@ public class AwsRunner implements TestRunner {
     private static final String UPLOAD_STATUS_FAILED = "FAILED";
     private static final String RUN_STATUS_COMPLETED = "COMPLETED";
     private static final String RUN_STATUS_ERRORED = "ERRORED";
-    private static final String APK_PATH = "app-debug.apk";
+    private static final String APK_PATH = Device.APK_PATH;
     private static final String IPA_PATH = "";
     private static final String TEST_PACKAGE = "target/zip-with-dependencies.zip";
     private static final String TEST_PACKAGE_TYPE = "APPIUM_JAVA_TESTNG_TEST_PACKAGE";
