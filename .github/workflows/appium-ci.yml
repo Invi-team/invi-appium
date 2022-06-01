@@ -1,0 +1,72 @@
+name: Appium CI
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - '/README.md'
+  workflow_dispatch:
+
+
+jobs:
+  test_android:
+    name: Test Android
+    runs-on: ubuntu-latest
+    
+    # setup javy https://github.com/actions/setup-java
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: 'maven'
+      
+      # konfig aws cli https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions    
+      # załadowanie plików .properties
+      - uses: keithweaver/aws-s3-github-action@v1.0.0
+        with:
+          command: cp
+          source: s3://invi-appium-tests/properties/
+          destination: ./src/main/resources/
+          aws_access_key_id: ${{ secrets.AWS_DEVICE_FARM_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_DEVICE_FARM_SECRET_ACCESS_KEY }}
+          aws_region: eu-west-1
+      
+      # załadowanie artefaktu
+      # https://github.com/marketplace/actions/download-workflow-artifact
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: Android CI
+          workflow_conclusion: success
+          branch: develop
+          event: push
+          name: Build Artifacts
+          path: ./appium/
+          repo: Invi-team/invi-android
+          skip_unpack: false
+      
+      # odpalenie testów
+      - name: Install dependencies with Maven
+        run: mvn clean install -DskipTests=true
+      - name: Run tests with maven
+        run: mvn exec:java -Dexec.args="Android"
+
+#  test_ios:
+#    name: Test iOS
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Set up JDK 8
+#      - uses: actions/setup-java@v3
+#        with:
+#          java-version: '8'
+#          distribution: 'temurin'
+#          cache: 'maven'
+#      - name: Build with Maven
+#      run: mvn clean install -DskipTests=true
+#        - name: Run tests with Maven
+#      run: mvn exec:java -Dexec.args="iOS"
