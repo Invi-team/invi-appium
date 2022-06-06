@@ -25,6 +25,7 @@ jobs:
       
       # konfig aws cli https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions    
       # załadowanie plików .properties
+      - run: mkdir -p /github/workspace/src/main/resources/
       - uses: keithweaver/aws-s3-github-action@v1.0.0
         with:
           command: cp
