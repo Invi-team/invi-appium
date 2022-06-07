@@ -37,7 +37,7 @@ jobs:
           flags: --recursive
       
       - run: echo "$PWD/config.properties" 
-      - run: echo "PWD/pom.xml"
+      - run: echo "$PWD/pom.xml"
       # załadowanie artefaktu
       # https://github.com/marketplace/actions/download-workflow-artifact
       - name: Download artifact
