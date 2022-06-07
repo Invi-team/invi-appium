@@ -36,8 +36,8 @@ jobs:
           aws_region: eu-west-1
           flags: --recursive
       
-      - run: echo locate config.properties 
-      - run: echo locate pom.xml
+      - run: echo "$PWD/config.properties" 
+      - run: echo "PWD/pom.xml"
       # załadowanie artefaktu
       # https://github.com/marketplace/actions/download-workflow-artifact
       - name: Download artifact
