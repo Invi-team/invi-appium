@@ -26,6 +26,8 @@ jobs:
       # konfig aws cli https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions    
       # załadowanie plików .properties
       - run: mkdir -p /home/runner/work/invi-appium/invi-appium/src/main/resources/
+      - run: touch /home/runner/work/invi-appium/invi-appium/src/main/resources/text.txt
+      - run: echo "$PWD/text.txt"
       - uses: keithweaver/aws-s3-github-action@v1.0.0
         with:
           command: cp
