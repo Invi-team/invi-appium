@@ -35,9 +35,6 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_DEVICE_FARM_SECRET_ACCESS_KEY }}
           aws_region: eu-west-1
           flags: --recursive
-      
-      - run: find / -name "config.properties" -type f -print
-      - run: find / -name "pom.xml" -type f -print
       # załadowanie artefaktu
       # https://github.com/marketplace/actions/download-workflow-artifact
       - name: Download artifact
@@ -56,7 +53,7 @@ jobs:
       # odpalenie testów
       - name: Install dependencies with Maven
         run: mvn clean install -DskipTests=true
-      - name: Run tests with maven
+      - name: Run tests with Maven
         run: mvn exec:java -Dexec.args="Android"
 
 #  test_ios:
