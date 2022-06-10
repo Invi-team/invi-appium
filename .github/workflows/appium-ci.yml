@@ -27,7 +27,7 @@ jobs:
       # załadowanie plików .properties
       - run: mkdir -p -v /home/runner/work/invi-appium/invi-appium/src/main/resources/
       - run: touch /home/runner/work/invi-appium/invi-appium/src/main/resources/text.txt
-      - run: echo "$PWD/text.txt"
+      - run: find / -name "text.txt" -type f -print
       - uses: keithweaver/aws-s3-github-action@v1.0.0
         with:
           command: cp
@@ -38,8 +38,8 @@ jobs:
           aws_region: eu-west-1
           flags: --recursive
       
-      - run: echo "$PWD/config.properties" 
-      - run: echo "$PWD/pom.xml"
+      - run: find / -name "config.properties" -type f -print
+      - run: find / -name "pom.xml" -type f -print
       # załadowanie artefaktu
       # https://github.com/marketplace/actions/download-workflow-artifact
       - name: Download artifact
