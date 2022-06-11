@@ -47,7 +47,7 @@ jobs:
           event: push
           name: Build Artifacts
           path: /home/runner/work/invi-appium/invi-appium/
-          repo: ${{github.repository}}
+          repo: Invi-team/invi-android
           skip_unpack: false
       
       # odpalenie testów
