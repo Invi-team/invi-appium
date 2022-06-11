@@ -41,13 +41,13 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{secrets.ACTIONS_PRIVATE_TOKEN}}
-          workflow: Android CI
+          workflow: android.yml
           workflow_conclusion: success
           branch: develop
           event: push
           name: Build Artifacts
           path: /home/runner/work/invi-appium/invi-appium/
-          repo: Invi-team/invi-android
+          repo: ${{Invi-team/invi-android}}
           skip_unpack: false
       
       # odpalenie testów
