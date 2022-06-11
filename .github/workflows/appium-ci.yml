@@ -48,7 +48,7 @@ jobs:
           name: Build Artifacts
           path: /home/runner/work/invi-appium/invi-appium/
           repo: Invi-team/invi-android
-          skip_unpack: false
+          skip_unpack: true
       - run: find /home/runner/work/invi-appium/ -type f -name app-debug.apk
       - run: find -type f -name 'Build Artifacts.zip'
       # odpalenie testów
