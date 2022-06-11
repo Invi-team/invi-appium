@@ -49,7 +49,7 @@ jobs:
           path: /home/runner/work/invi-appium/invi-appium/
           repo: Invi-team/invi-android
           skip_unpack: false
-      
+      - run: find /home/runner/work/invi-appium/ -f -name app-debug.apk
       # odpalenie testów
       - name: Install dependencies with Maven
         run: mvn clean install -DskipTests=true
