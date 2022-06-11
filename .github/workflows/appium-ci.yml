@@ -40,7 +40,7 @@ jobs:
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
+          github_token: ${{secrets.GITHUB_ACTIONS_PRIVATE_TOKEN}}
           workflow: Android CI
           workflow_conclusion: success
           branch: develop
