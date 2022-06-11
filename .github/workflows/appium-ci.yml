@@ -48,9 +48,10 @@ jobs:
           name: Build Artifacts
           path: /home/runner/work/invi-appium/invi-appium/
           repo: Invi-team/invi-android
-          skip_unpack: true
+          skip_unpack: false
       - run: find -type f -name 'Build Artifacts'
       - run: find -type f -name 'Build Artifacts.zip'
+      - run: find -type f -name 'app-debug.apk'
       # odpalenie testów
       - name: Install dependencies with Maven
         run: mvn clean install -DskipTests=true
