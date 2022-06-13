@@ -2,7 +2,7 @@ name: Appium CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, feature/12_ci_poc_actions ]
     paths-ignore:
       - '/README.md'
   workflow_dispatch:
