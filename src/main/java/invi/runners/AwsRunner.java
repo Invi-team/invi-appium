@@ -164,7 +164,5 @@ public class AwsRunner implements TestRunner {
             deviceFarmClient.stopRun(new StopRunRequest().withArn(runArn));
             java.lang.System.exit(1);
         }
-
-        // collect artifacts
     }
 }
