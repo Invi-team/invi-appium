@@ -163,6 +163,7 @@
         <version>3.0.0</version>
         <configuration>
           <mainClass>invi.App</mainClass>
+          <cleanupDaemonThreads>false</cleanupDaemonThreads>
           <arguments>
             <argument>Android</argument>
           </arguments>
