@@ -156,13 +156,12 @@ public class AwsRunner implements TestRunner {
             while (true) {
                 Run run = deviceFarmClient.getRun(new GetRunRequest().withArn(runArn)).getRun();
 
-                switch (run.getStatus()) {
-                    case RUN_STATUS_COMPLETED:
-                        LOGGER.info("Test run finished with status " + run.getStatus());
-                        break;
-                    case RUN_STATUS_ERRORED:
-                        throw new FailedTestRunException("Text run failed with status "  + RUN_STATUS_ERRORED +
-                                "\n" + run.getMessage());
+                if (run.getStatus().equals(RUN_STATUS_COMPLETED)) {
+                    LOGGER.info("Test run finished with status " + run.getStatus());
+                    break;
+                } else if (run.getStatus().equals(RUN_STATUS_ERRORED)) {
+                    throw new FailedTestRunException("Text run failed with status " + RUN_STATUS_ERRORED +
+                            "\n" + run.getMessage());
                 }
             }
         } catch (Exception e) {
