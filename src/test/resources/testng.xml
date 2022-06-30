@@ -6,10 +6,14 @@
     </listeners>
     <parameter name="device" value="invi.capabilities.AndroidAwsDevice"></parameter>
     <parameter name="system" value="Android"></parameter>
-    <test name="android">
+    <test name="Signup test">
+        <classes>
+            <class name="invi.tests.auth.SignUpTest"></class>
+        </classes>
+    </test>
+    <test name="Login test">
         <classes>
             <class name="invi.tests.auth.LogInTest" ></class>
-            <class name="invi.tests.auth.SignUpTest"></class>
         </classes>
     </test>
 </suite>

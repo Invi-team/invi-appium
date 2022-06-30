@@ -10,7 +10,7 @@ name: Appium CI
 
 on:
   push:
-    branches: [ master, feature/12_ci_poc_actions ]
+    branches: [ master ]
     paths-ignore:
       - '/README.md'
   workflow_dispatch:
@@ -56,6 +56,7 @@ jobs:
           path: /home/runner/work/invi-appium/invi-appium/
           repo: Invi-team/invi-android
           skip_unpack: false
+
       - name: Unzip artifacts
         run: unzip 'Build Artifacts.zip' -d /home/runner/work/invi-appium/invi-appium/
 
