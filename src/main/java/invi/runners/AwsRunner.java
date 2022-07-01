@@ -1,12 +1,16 @@
 package invi.runners;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.devicefarm.AWSDeviceFarmClient;
 import com.amazonaws.services.devicefarm.model.*;
+import invi.exceptions.FailedTestRunException;
 import invi.exceptions.IncorrectDeviceFarmUploadException;
 import invi.exceptions.InvalidTestRunArgException;
 import invi.utils.PropertiesHandler;
 import invi.utils.System;
+import invi.capabilities.Device;
 import okhttp3.*;
 
 import java.io.File;
@@ -22,7 +26,7 @@ public class AwsRunner implements TestRunner {
     private static final String UPLOAD_STATUS_FAILED = "FAILED";
     private static final String RUN_STATUS_COMPLETED = "COMPLETED";
     private static final String RUN_STATUS_ERRORED = "ERRORED";
-    private static final String APK_PATH = "app-debug.apk";
+    private static final String APK_PATH = Device.APK_PATH;
     private static final String IPA_PATH = "";
     private static final String TEST_PACKAGE = "target/zip-with-dependencies.zip";
     private static final String TEST_PACKAGE_TYPE = "APPIUM_JAVA_TESTNG_TEST_PACKAGE";
@@ -108,8 +112,12 @@ public class AwsRunner implements TestRunner {
 
     public void run() {
         //   create client and upload files
+        String accessKey = propertiesHandler.getProperty("aws.properties", "aws.access.key");
+        String secretKey = propertiesHandler.getProperty("aws.properties", "aws.secret.key");
+        BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
         deviceFarmClient = (AWSDeviceFarmClient) AWSDeviceFarmClient
                 .builder()
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withRegion(Regions.US_WEST_2)
                 .build();
 
@@ -142,15 +150,18 @@ public class AwsRunner implements TestRunner {
         ScheduleRunResult runResult = deviceFarmClient.scheduleRun(runRequest);
 
         String runArn = runResult.getRun().getArn();
-        String runStartTime = dateUtils.getCurrentDate();
         LOGGER.info("Scheduled test run " + runArn);
 
         try {
             while (true) {
                 Run run = deviceFarmClient.getRun(new GetRunRequest().withArn(runArn)).getRun();
-                if (run.getStatus().equals(RUN_STATUS_COMPLETED) || run.getStatus().equals(RUN_STATUS_ERRORED)) {
+
+                if (run.getStatus().equals(RUN_STATUS_COMPLETED)) {
                     LOGGER.info("Test run finished with status " + run.getStatus());
                     break;
+                } else if (run.getStatus().equals(RUN_STATUS_ERRORED)) {
+                    throw new FailedTestRunException("Text run failed with status " + RUN_STATUS_ERRORED +
+                            "\n" + run.getMessage());
                 }
             }
         } catch (Exception e) {
@@ -158,7 +169,5 @@ public class AwsRunner implements TestRunner {
             deviceFarmClient.stopRun(new StopRunRequest().withArn(runArn));
             java.lang.System.exit(1);
         }
-
-        // collect artifacts
     }
 }

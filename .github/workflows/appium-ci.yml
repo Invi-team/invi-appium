@@ -1,0 +1,66 @@
+# This workflow runs Appium e2e tests for Invi Android app.
+# It can be triggered by other repositories, as it accepts repository_dispath event.
+#
+# There are two AWS Device Farm secrets stored to run this workflow:
+# AWS_DEVICE_FARM_ACCESS_KEY_ID & AWS_DEVICE_FARM_SECRET_ACCESS_KEY
+#
+# It also uses ACTIONS_PRIVATE_TOKEN which is a custom Github personal access token with all necessery scopes.
+
+name: Appium CI
+
+on:
+  push:
+    branches: [ master, feature/12_ci_poc_actions ]
+    paths-ignore:
+      - '/README.md'
+  workflow_dispatch:
+  repository_dispatch:
+
+jobs:
+  test_android:
+    name: Test Android
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Create directories for resources
+        run: mkdir -p -v /home/runner/work/invi-appium/invi-appium/src/main/resources/
+
+      - name: Fetch .properties files
+        uses: keithweaver/aws-s3-github-action@v1.0.0
+        with:
+          command: cp
+          source: s3://invi-appium-tests/properties/
+          destination: /home/runner/work/invi-appium/invi-appium/src/main/resources/
+          aws_access_key_id: ${{ secrets.AWS_DEVICE_FARM_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_DEVICE_FARM_SECRET_ACCESS_KEY }}
+          aws_region: eu-west-1
+          flags: --recursive
+
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{secrets.ACTIONS_PRIVATE_TOKEN}}
+          workflow: android.yml
+          workflow_conclusion: success
+          branch: develop
+          event: push
+          name: Build Artifacts
+          path: /home/runner/work/invi-appium/invi-appium/
+          repo: Invi-team/invi-android
+          skip_unpack: false
+      - name: Unzip artifacts
+        run: unzip 'Build Artifacts.zip' -d /home/runner/work/invi-appium/invi-appium/
+
+      - name: Install dependencies with Maven
+        run: mvn clean install -DskipTests=true
+
+      - name: Run tests with Maven
+        run: mvn exec:java -Dexec.args="Android"
