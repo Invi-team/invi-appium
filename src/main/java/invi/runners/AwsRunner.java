@@ -154,6 +154,7 @@ public class AwsRunner implements TestRunner {
                 }
             }
         } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
             deviceFarmClient.stopRun(new StopRunRequest().withArn(runArn));
             java.lang.System.exit(1);
         }
