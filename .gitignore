@@ -4,7 +4,7 @@ resources/config.properties
 resources/aws.properties
 /test-output/
 /accounts.json
-app-debug.apk
+apk/debug/app-debug.apk
 
 ### Maven template
 target/

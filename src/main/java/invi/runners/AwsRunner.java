@@ -163,6 +163,7 @@ public class AwsRunner implements TestRunner {
                     throw new FailedTestRunException("Text run failed with status " + RUN_STATUS_ERRORED +
                             "\n" + run.getMessage());
                 }
+                Thread.sleep(3000);
             }
         } catch (Exception e) {
             LOGGER.severe(e.getMessage());
