@@ -9,10 +9,11 @@
 name: Appium CI
 
 on:
-  push:
-    branches: [ master, feature/12_ci_poc_actions ]
-    paths-ignore:
-      - '/README.md'
+#  Ignoring push to save resources
+#  push:
+#    branches: [ master, feature/12_ci_poc_actions ]
+#    paths-ignore:
+#      - '/README.md'
   workflow_dispatch:
   repository_dispatch:
 
@@ -44,7 +45,7 @@ jobs:
           aws_region: eu-west-1
           flags: --recursive
 
-      - name: Download artifact
+      - name: Download android apk
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{secrets.ACTIONS_PRIVATE_TOKEN}}
@@ -56,7 +57,8 @@ jobs:
           path: /home/runner/work/invi-appium/invi-appium/
           repo: Invi-team/invi-android
           skip_unpack: false
-      - name: Unzip artifacts
+
+      - name: Unzip android apk
         run: unzip 'Build Artifacts.zip' -d /home/runner/work/invi-appium/invi-appium/
 
       - name: Install dependencies with Maven
