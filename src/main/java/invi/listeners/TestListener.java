@@ -29,7 +29,7 @@ public class TestListener implements ITestListener {
         java.io.File scrFile = ((TakesScreenshot)this.driver).getScreenshotAs(OutputType.FILE);
 
         try {
-            FileUtils.copyFile(scrFile, new java.io.File("./test-output/screenshots/" + File.composeNameByTestRun(iTestResult) + ".png"));
+            FileUtils.copyFile(scrFile, new java.io.File("./test-output/" + iTestResult.getName()+ "/" + File.composeNameByTestRun(iTestResult) + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
