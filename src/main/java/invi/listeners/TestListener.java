@@ -26,6 +26,7 @@ public class TestListener implements ITestListener {
 
         StringBuilder pathBuilder = new StringBuilder()
                 .append("./test-output/")
+                .append("test-listener/")
                 .append(iTestResult.getName())
                 .append("/")
                 .append(this.composeNameByTestRun(iTestResult))
