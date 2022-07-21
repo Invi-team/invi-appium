@@ -28,7 +28,9 @@ public class AwsRunner implements TestRunner {
     private static final String UPLOAD_STATUS_SUCCEEDED = "SUCCEEDED";
     private static final String UPLOAD_STATUS_FAILED = "FAILED";
     private static final String RUN_STATUS_COMPLETED = "COMPLETED";
-    private static final String RUN_STATUS_ERRORED = "ERRORED";
+    private static final String RUN_RESULT_FAILED = "FAILED";
+    private static final String RUN_RESULT_PASSED = "PASSED";
+    private static final String RUN_RESULT_STOPPED = "STOPPED";
     private static final String APK_PATH = Device.APK_PATH;
     private static final String IPA_PATH = "";
     private static final String TEST_PACKAGE = "target/zip-with-dependencies.zip";
@@ -115,10 +117,10 @@ public class AwsRunner implements TestRunner {
     }
 
 
-    private void listArtifacts() {
+    private void listRunArtifacts(String runArn) {
         List<String> artifactTypes = Arrays.asList(new String[]{"FILE", "SCREENSHOT", "LOG"});
         List<String> artifactNames = Arrays.asList(new String[]{"Test spec output", "Test spec file", "Video"});
-        ListJobsRequest jobsRequest = new ListJobsRequest().withArn(this.runArn);
+        ListJobsRequest jobsRequest = new ListJobsRequest().withArn(runArn);
         ListJobsResult jobsResult = deviceFarmClient.listJobs(jobsRequest);
 
         for (Job job : jobsResult.getJobs()) {
@@ -216,16 +218,28 @@ public class AwsRunner implements TestRunner {
         ScheduleRunResult runResult = deviceFarmClient.scheduleRun(runRequest);
         this.runArn = runResult.getRun().getArn();
         LOGGER.info("Scheduled test run " + runArn);
+        //finish test run and collect artifacts
         try {
-            while (true) {
-                Run run = deviceFarmClient.getRun(new GetRunRequest().withArn(runArn)).getRun();
-
+            boolean doLoop = true;
+            while (doLoop) {
+                Run run = deviceFarmClient.getRun(new GetRunRequest().withArn(this.runArn)).getRun();
                 if (run.getStatus().equals(RUN_STATUS_COMPLETED)) {
                     LOGGER.info("Test run finished with status " + run.getStatus());
-                    break;
-                } else if (run.getStatus().equals(RUN_STATUS_ERRORED)) {
-                    throw new FailedTestRunException("Text run failed with status " + RUN_STATUS_ERRORED +
-                            "\n" + run.getMessage());
+                }
+                switch (run.getResult()) {
+                    case RUN_RESULT_PASSED:
+                        LOGGER.info("Test run finish with result " + RUN_RESULT_PASSED);
+                        this.listRunArtifacts(this.runArn);
+                        doLoop = false;
+                        break;
+                    case RUN_RESULT_FAILED:
+                        this.listRunArtifacts(this.runArn);
+                        throw new FailedTestRunException("Test run finished with result " + RUN_RESULT_FAILED +
+                                "\n" + run.getMessage());
+                    case RUN_RESULT_STOPPED:
+                        this.listRunArtifacts(this.runArn);
+                        throw new FailedTestRunException("Test run finished with result " + RUN_RESULT_STOPPED +
+                                "\n" + run.getMessage());
                 }
                 Thread.sleep(3000);
             }
@@ -234,6 +248,5 @@ public class AwsRunner implements TestRunner {
             deviceFarmClient.stopRun(new StopRunRequest().withArn(runArn));
             java.lang.System.exit(1);
         }
-        this.listArtifacts();
     }
 }
