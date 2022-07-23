@@ -79,4 +79,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.ANDROID_QA_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'Test run finished with status {{ steps.test_run.conclusion }}. Go to {{ github.repository }} to download test output '
+          args: 'Test run finished with status {{ jobs.test_android.steps.test_run.conclusion }}. Go to {{ github.repository }} to download test output '
