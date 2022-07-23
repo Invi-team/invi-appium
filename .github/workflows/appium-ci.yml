@@ -65,4 +65,18 @@ jobs:
         run: mvn clean install -DskipTests=true
 
       - name: Run tests with Maven
+        id: test_run
         run: mvn exec:java -Dexec.args="Android"
+        
+      - name: Upload test run artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-output
+          path: /home/runner/work/invi-appium/invi-appium/
+          
+      - name: Push discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.ANDROID_QA_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'Test run finished with status {{ steps.test_run.conclusion }}. Go to {{ github.repository }} to download test output '
