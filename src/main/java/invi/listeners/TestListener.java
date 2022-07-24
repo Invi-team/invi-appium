@@ -42,14 +42,15 @@ public class TestListener implements ITestListener {
     private void writeMessage(ITestResult iTestResult) {
         String message = iTestResult.getThrowable().getMessage();
 
-        StringBuilder pathBuilder = new StringBuilder()
+        String pathAsString = new StringBuilder()
                 .append("./test-output/")
                 .append(iTestResult.getName())
                 .append("/")
                 .append(this.composeNameByTestRun(iTestResult))
-                .append(".txt");
+                .append(".txt")
+                .toString();
 
-        Path path = Paths.get(pathBuilder.toString());
+        Path path = Paths.get(pathAsString);
         try {
             Files.write(path, message.getBytes());
         } catch (IOException e) {
