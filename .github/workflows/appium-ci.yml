@@ -77,6 +77,7 @@ jobs:
       - name: Push discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.ANDROID_QA_WEBHOOK }}
+          RUN_CONCLUSION: ${{ steps.test_run.conclusion }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'Test run finished with status {{ job.test_android.steps.test_run.conclusion }}. Go to {{ github.repository }} to download test output '
+          args: 'Tests for {{ GITHUB_EVENT_NAME }} finished with status {{ RUN_CONCLUSION }}; Go to {{ GITHUB_ACTION_REPOSITORY }} to download test output '
