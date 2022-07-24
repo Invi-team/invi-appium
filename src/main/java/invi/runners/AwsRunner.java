@@ -58,8 +58,9 @@ public class AwsRunner implements TestRunner {
             System.ANDROID.setActive(true);
         } else if (deviceSystem.equals("iOS")) {
             System.IOS.setActive(true);
-        } else
+        } else {
             throw new InvalidTestRunArgException(deviceSystem + " is not valid device system. Choose between Android and iOS");
+        }
     }
 
     //        upload app file to device farm
