@@ -80,4 +80,4 @@ jobs:
           RUN_CONCLUSION: ${{ steps.test_run.conclusion }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'Tests for {{ GITHUB_EVENT_NAME }} finished with status {{ RUN_CONCLUSION }}; Go to {{ GITHUB_ACTION_REPOSITORY }} to download test output '
+          args: 'Scheduled e2e tests for Android finished with status {{ RUN_CONCLUSION }}. Go to {{ GITHUB_REPOSITORY }} to download test output.'
