@@ -78,6 +78,8 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.ANDROID_QA_WEBHOOK }}
           RUN_CONCLUSION: ${{ steps.test_run.conclusion }}
+          GITHUB_WORKFLOW_URL: https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+
         uses: Ilshidur/action-discord@master
         with:
           args: 'Scheduled e2e tests for Android finished with status {{ RUN_CONCLUSION }}. Go to {{ GITHUB_REPOSITORY }} to download test output.'
