@@ -82,4 +82,4 @@ jobs:
 
         uses: Ilshidur/action-discord@master
         with:
-          args: 'Scheduled e2e tests for Android finished with status {{ RUN_CONCLUSION }}. Go to {{  env.GITHUB_WORKFLOW_URL }} to download test output.'
+          args: 'Scheduled e2e tests for Android finished with status {{ RUN_CONCLUSION }}. Go to {{  GITHUB_WORKFLOW_URL }} to download test output.'
