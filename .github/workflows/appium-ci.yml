@@ -81,4 +81,4 @@ jobs:
 
         uses: Ilshidur/action-discord@master
         with:
-          args: 'Scheduled e2e tests for Android finished with status {{ RUN_CONCLUSION }}. Go to https://github.com/${{ GITHUB_REPOSITORY }}/actions/runs/${{ GITHUB_RUN_ID }} to download test output.'
+          args: 'Scheduled e2e tests for Android finished with status {{ RUN_CONCLUSION }}. Go to https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }} to download test output.'
