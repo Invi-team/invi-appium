@@ -19,7 +19,7 @@ invi.accounts.password
 ````
 ##### Create local test suite
 
-Create file named testng-local.xml in /main/resources catalog, eg.
+Create file named testing-local.xml in /main/resources catalog, eg.
 
 ````
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
